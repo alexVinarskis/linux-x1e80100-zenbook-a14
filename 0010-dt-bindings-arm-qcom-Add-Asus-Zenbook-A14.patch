@@ -1,0 +1,35 @@
+From e785fd59a4660958001b52d56e619b6c9a10ce04 Mon Sep 17 00:00:00 2001
+From: Aleksandrs Vinarskis <alex.vinarskis@gmail.com>
+Date: Fri, 21 Mar 2025 13:41:42 +0100
+Subject: [PATCH 10/12] dt-bindings: arm: qcom: Add Asus Zenbook A14
+
+Document the X1E-78-100 and X1P-42-100/X1-26-100 variants.
+
+Signed-off-by: Aleksandrs Vinarskis <alex.vinarskis@gmail.com>
+---
+ Documentation/devicetree/bindings/arm/qcom.yaml | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/Documentation/devicetree/bindings/arm/qcom.yaml b/Documentation/devicetree/bindings/arm/qcom.yaml
+index 08c329b1e919..1b7e2ed56baa 100644
+--- a/Documentation/devicetree/bindings/arm/qcom.yaml
++++ b/Documentation/devicetree/bindings/arm/qcom.yaml
+@@ -1133,6 +1133,7 @@ properties:
+       - items:
+           - enum:
+               - asus,vivobook-s15
++              - asus,x1e80100-zenbook-a14
+               - dell,xps13-9345
+               - hp,omnibook-x14
+               - lenovo,yoga-slim7x
+@@ -1144,6 +1145,7 @@ properties:
+ 
+       - items:
+           - enum:
++              - asus,x1p42100-zenbook-a14
+               - qcom,x1p42100-crd
+           - const: qcom,x1p42100
+ 
+-- 
+2.45.2
+

@@ -1,0 +1,29 @@
+From ab31db52d0f420de7b5bbff8396a495a2d7c9096 Mon Sep 17 00:00:00 2001
+From: Aleksandrs Vinarskis <alex.vinarskis@gmail.com>
+Date: Sat, 29 Mar 2025 13:07:47 +0100
+Subject: [PATCH 09/12] dt-bindings: usb: Add Parade PS8833 Type-C retimer
+ variant
+
+Appears to behave similarly to Parade PS8830. Found on some Qualcomm
+Snapdragon X1 devices, such as Asus Zenbook A14.
+
+Signed-off-by: Aleksandrs Vinarskis <alex.vinarskis@gmail.com>
+---
+ Documentation/devicetree/bindings/usb/parade,ps8830.yaml | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/Documentation/devicetree/bindings/usb/parade,ps8830.yaml b/Documentation/devicetree/bindings/usb/parade,ps8830.yaml
+index 935d57f5d26f..699f4e1d9283 100644
+--- a/Documentation/devicetree/bindings/usb/parade,ps8830.yaml
++++ b/Documentation/devicetree/bindings/usb/parade,ps8830.yaml
+@@ -13,6 +13,7 @@ properties:
+   compatible:
+     enum:
+       - parade,ps8830
++      - parade,ps8833
+ 
+   reg:
+     maxItems: 1
+-- 
+2.45.2
+

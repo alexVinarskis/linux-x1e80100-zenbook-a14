@@ -1,0 +1,28 @@
+From 133348084aeb8b18eaf83848f1454666a74dfaf3 Mon Sep 17 00:00:00 2001
+From: Aleksandrs Vinarskis <alex.vinarskis@gmail.com>
+Date: Fri, 21 Mar 2025 13:44:24 +0100
+Subject: [PATCH 11/12] firmware: qcom: scm: Allow QSEECOM on Asus Zenbook A14
+
+Allow particular machine accessing eg. efivars.
+
+Signed-off-by: Aleksandrs Vinarskis <alex.vinarskis@gmail.com>
+---
+ drivers/firmware/qcom/qcom_scm.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/drivers/firmware/qcom/qcom_scm.c b/drivers/firmware/qcom/qcom_scm.c
+index fc4d67e4c4a6..0d2467c04248 100644
+--- a/drivers/firmware/qcom/qcom_scm.c
++++ b/drivers/firmware/qcom/qcom_scm.c
+@@ -1986,6 +1986,8 @@ EXPORT_SYMBOL_GPL(qcom_scm_qseecom_app_send);
+  */
+ static const struct of_device_id qcom_scm_qseecom_allowlist[] __maybe_unused = {
+ 	{ .compatible = "asus,vivobook-s15" },
++	{ .compatible = "asus,x1e80100-zenbook-a14" },
++	{ .compatible = "asus,x1p42100-zenbook-a14" },
+ 	{ .compatible = "dell,xps13-9345" },
+ 	{ .compatible = "hp,omnibook-x14" },
+ 	{ .compatible = "huawei,gaokun3" },
+-- 
+2.45.2
+
