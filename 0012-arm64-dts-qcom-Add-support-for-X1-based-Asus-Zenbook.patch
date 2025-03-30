@@ -1,4 +1,4 @@
-From 05460eb072d57f0c4ff82a8e1df379b3db897bc6 Mon Sep 17 00:00:00 2001
+From bd0b11cf90275f2801fd91a862d877360a70856f Mon Sep 17 00:00:00 2001
 From: Aleksandrs Vinarskis <alex.vinarskis@gmail.com>
 Date: Fri, 21 Mar 2025 12:09:53 +0100
 Subject: [PATCH 12/12] arm64: dts: qcom: Add support for X1-based Asus Zenbook
@@ -29,7 +29,7 @@ Working:
 
 Out of scope of this series:
 * Audio (Speakers/microphones/headphone jack)
-* Camera
+* Camera (OmniVision OV02C10)
 * HDMI (Parade PS185HDM)
 * EC
 
@@ -1324,7 +1324,7 @@ index 000000000000..148517fe50e1
 +};
 diff --git a/arch/arm64/boot/dts/qcom/x1e80100-asus-zenbook-a14.dts b/arch/arm64/boot/dts/qcom/x1e80100-asus-zenbook-a14.dts
 new file mode 100644
-index 000000000000..d22be74ecc46
+index 000000000000..6bddf50435b2
 --- /dev/null
 +++ b/arch/arm64/boot/dts/qcom/x1e80100-asus-zenbook-a14.dts
 @@ -0,0 +1,45 @@
@@ -1365,7 +1365,7 @@ index 000000000000..d22be74ecc46
 +&uart14 {
 +	status = "okay";
 +
-+	bluetooth: bt_wcn7850 {
++	bluetooth {
 +		compatible = "qcom,wcn7850-bt";
 +		pinctrl-names = "default";
 +		pinctrl-0 = <&bt_en_default>;
@@ -1375,7 +1375,7 @@ index 000000000000..d22be74ecc46
 +};
 diff --git a/arch/arm64/boot/dts/qcom/x1p42100-asus-zenbook-a14.dts b/arch/arm64/boot/dts/qcom/x1p42100-asus-zenbook-a14.dts
 new file mode 100644
-index 000000000000..c3c91271e7bf
+index 000000000000..b6c9a707090f
 --- /dev/null
 +++ b/arch/arm64/boot/dts/qcom/x1p42100-asus-zenbook-a14.dts
 @@ -0,0 +1,48 @@
@@ -1419,7 +1419,7 @@ index 000000000000..c3c91271e7bf
 +&uart14 {
 +	status = "okay";
 +
-+	bluetooth: bt_wcn6855 {
++	bluetooth {
 +		compatible = "qcom,wcn6855-bt";
 +		pinctrl-names = "default";
 +		pinctrl-0 = <&bt_en_default>;
