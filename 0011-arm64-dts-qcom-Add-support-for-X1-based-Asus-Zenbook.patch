@@ -1,7 +1,7 @@
-From bd0b11cf90275f2801fd91a862d877360a70856f Mon Sep 17 00:00:00 2001
+From 4ea684c85c950ee141e34b85e7488156c744707f Mon Sep 17 00:00:00 2001
 From: Aleksandrs Vinarskis <alex.vinarskis@gmail.com>
 Date: Fri, 21 Mar 2025 12:09:53 +0100
-Subject: [PATCH 12/12] arm64: dts: qcom: Add support for X1-based Asus Zenbook
+Subject: [PATCH 11/11] arm64: dts: qcom: Add support for X1-based Asus Zenbook
  A14
 
 Initial support for Asus Zenbook A14. Particular moddel exists
@@ -39,10 +39,10 @@ Tested on UX3407QA with X1-26-100.
 Signed-off-by: Aleksandrs Vinarskis <alex.vinarskis@gmail.com>
 ---
  arch/arm64/boot/dts/qcom/Makefile             |    2 +
- arch/arm64/boot/dts/qcom/x1-zenbook-a14.dtsi  | 1251 +++++++++++++++++
+ arch/arm64/boot/dts/qcom/x1-zenbook-a14.dtsi  | 1258 +++++++++++++++++
  .../dts/qcom/x1e80100-asus-zenbook-a14.dts    |   45 +
  .../dts/qcom/x1p42100-asus-zenbook-a14.dts    |   48 +
- 4 files changed, 1346 insertions(+)
+ 4 files changed, 1353 insertions(+)
  create mode 100644 arch/arm64/boot/dts/qcom/x1-zenbook-a14.dtsi
  create mode 100644 arch/arm64/boot/dts/qcom/x1e80100-asus-zenbook-a14.dts
  create mode 100644 arch/arm64/boot/dts/qcom/x1p42100-asus-zenbook-a14.dts
@@ -67,10 +67,10 @@ index adb4d026bcc4..baa99f9e43ab 100644
  dtb-$(CONFIG_ARCH_QCOM)	+= x1p42100-crd.dtb
 diff --git a/arch/arm64/boot/dts/qcom/x1-zenbook-a14.dtsi b/arch/arm64/boot/dts/qcom/x1-zenbook-a14.dtsi
 new file mode 100644
-index 000000000000..148517fe50e1
+index 000000000000..fa556a52b857
 --- /dev/null
 +++ b/arch/arm64/boot/dts/qcom/x1-zenbook-a14.dtsi
-@@ -0,0 +1,1251 @@
+@@ -0,0 +1,1258 @@
 +// SPDX-License-Identifier: BSD-3-Clause
 +/*
 + * Copyright (c) 2025 Qualcomm Innovation Center, Inc. All rights reserved.
@@ -114,8 +114,8 @@ index 000000000000..148517fe50e1
 +	leds {
 +		compatible = "gpio-leds";
 +
-+		pinctrl-names = "default";
 +		pinctrl-0 = <&cam_indicator_en>;
++		pinctrl-names = "default";
 +
 +		led-camera-indicator {
 +			label = "white:camera-indicator";
@@ -688,6 +688,7 @@ index 000000000000..148517fe50e1
 +
 +&i2c0 {
 +	clock-frequency = <400000>;
++
 +	status = "okay";
 +
 +	/* ELAN, 04F3:3315 */
@@ -707,11 +708,12 @@ index 000000000000..148517fe50e1
 +
 +&i2c3 {
 +	clock-frequency = <400000>;
++
 +	status = "okay";
 +
-+	/* Left-side display-adjacent port */
++	/* Left-side display-adjacent port, PS8833 */
 +	typec-mux@8 {
-+		compatible = "parade,ps8833";
++		compatible = "parade,ps8830";
 +		reg = <0x08>;
 +
 +		clocks = <&rpmhcc RPMH_RF_CLK3>;
@@ -764,9 +766,10 @@ index 000000000000..148517fe50e1
 +
 +&i2c4 {
 +	clock-frequency = <400000>;
++
 +	status = "okay";
 +
-+	/* ASUSTek, 0B05:4543 */
++	/* ASUSTeK, 0B05:4543 */
 +	hdtl@17 {
 +		compatible = "hid-over-i2c";
 +		reg = <0x17>;
@@ -783,6 +786,7 @@ index 000000000000..148517fe50e1
 +
 +&i2c5 {
 +	clock-frequency = <400000>;
++
 +	status = "okay";
 +
 +	eusb6_repeater: redriver@4f {
@@ -804,11 +808,12 @@ index 000000000000..148517fe50e1
 +
 +&i2c7 {
 +	clock-frequency = <400000>;
++
 +	status = "okay";
 +
-+	/* Left-side user-adjacent port */
++	/* Left-side user-adjacent port, PS8833 */
 +	typec-mux@8 {
-+		compatible = "parade,ps8833";
++		compatible = "parade,ps8830";
 +		reg = <0x08>;
 +
 +		clocks = <&rpmhcc RPMH_RF_CLK4>;
@@ -861,9 +866,10 @@ index 000000000000..148517fe50e1
 +
 +&i2c8 {
 +	clock-frequency = <400000>;
++
 +	status = "okay";
 +
-+	/* ASUSTek, 0B05:0220 */
++	/* ASUSTeK, 0B05:0220 */
 +	keyboard@15 {
 +		compatible = "hid-over-i2c";
 +		reg = <0x15>;
@@ -984,7 +990,7 @@ index 000000000000..148517fe50e1
 +	rtmr0_default: rtmr0-reset-n-active-state {
 +		pins = "gpio10";
 +		function = "normal";
-+		power-source = <1>; /* 1.8V */
++		power-source = <1>;
 +		bias-disable;
 +		input-disable;
 +		output-enable;
@@ -993,7 +999,7 @@ index 000000000000..148517fe50e1
 +	usb0_3p3_reg_en: usb0-3p3-reg-en-state {
 +		pins = "gpio11";
 +		function = "normal";
-+		power-source = <1>; /* 1.8V */
++		power-source = <1>;
 +		bias-disable;
 +		input-disable;
 +		output-enable;
@@ -1004,11 +1010,11 @@ index 000000000000..148517fe50e1
 +	misc_3p3_reg_en: misc-3p3-reg-en-state {
 +		pins = "gpio6";
 +		function = "normal";
++		power-source = <1>;
 +		bias-disable;
 +		input-disable;
 +		output-enable;
 +		drive-push-pull;
-+		power-source = <1>; /* 1.8 V */
 +		qcom,drive-strength = <PMIC_GPIO_STRENGTH_LOW>;
 +	};
 +};
@@ -1017,7 +1023,7 @@ index 000000000000..148517fe50e1
 +	usb0_1p8_reg_en: usb0-1p8-reg-en-state {
 +		pins = "gpio8";
 +		function = "normal";
-+		power-source = <1>; /* 1.8V */
++		power-source = <1>;
 +		bias-disable;
 +		input-disable;
 +		output-enable;
@@ -1028,7 +1034,7 @@ index 000000000000..148517fe50e1
 +	edp_bl_en: edp-bl-en-state {
 +		pins = "gpio4";
 +		function = "normal";
-+		power-source = <1>; /* 1.8V */
++		power-source = <1>;
 +		input-disable;
 +		output-enable;
 +	};
@@ -1038,7 +1044,7 @@ index 000000000000..148517fe50e1
 +	usb0_pwr_1p15_reg_en: usb0-pwr-1p15-reg-en-state {
 +		pins = "gpio8";
 +		function = "normal";
-+		power-source = <1>; /* 1.8V */
++		power-source = <1>;
 +		bias-disable;
 +		input-disable;
 +		output-enable;
@@ -1088,9 +1094,9 @@ index 000000000000..148517fe50e1
 +	bt_en_default: bt-en-sleep {
 +		pins = "gpio116";
 +		function = "gpio";
-+		output-low;
++		drive-strength = <16>;
 +		bias-disable;
-+		qcom,drive-strength = <16>;
++		output-low;
 +	};
 +
 +	cam_indicator_en: cam-indicator-en-state {
@@ -1222,6 +1228,7 @@ index 000000000000..148517fe50e1
 +
 +&uart21 {
 +	compatible = "qcom,geni-debug-uart";
++
 +	status = "okay";
 +};
 +
@@ -1324,7 +1331,7 @@ index 000000000000..148517fe50e1
 +};
 diff --git a/arch/arm64/boot/dts/qcom/x1e80100-asus-zenbook-a14.dts b/arch/arm64/boot/dts/qcom/x1e80100-asus-zenbook-a14.dts
 new file mode 100644
-index 000000000000..6bddf50435b2
+index 000000000000..0b70ab396cf4
 --- /dev/null
 +++ b/arch/arm64/boot/dts/qcom/x1e80100-asus-zenbook-a14.dts
 @@ -0,0 +1,45 @@
@@ -1340,8 +1347,8 @@ index 000000000000..6bddf50435b2
 +#include "x1-zenbook-a14.dtsi"
 +
 +/ {
-+	model = "ASUS Zenbook A14 UX3407RA";
-+	compatible = "asus,x1e80100-zenbook-a14", "qcom,x1e80100";
++	model = "ASUS Zenbook A14 (UX3407RA)";
++	compatible = "asus,zenbook-a14-ux3407ra", "qcom,x1e80100";
 +};
 +
 +&gpu_zap_shader {
@@ -1375,7 +1382,7 @@ index 000000000000..6bddf50435b2
 +};
 diff --git a/arch/arm64/boot/dts/qcom/x1p42100-asus-zenbook-a14.dts b/arch/arm64/boot/dts/qcom/x1p42100-asus-zenbook-a14.dts
 new file mode 100644
-index 000000000000..b6c9a707090f
+index 000000000000..48d2eefeadc3
 --- /dev/null
 +++ b/arch/arm64/boot/dts/qcom/x1p42100-asus-zenbook-a14.dts
 @@ -0,0 +1,48 @@
@@ -1394,12 +1401,12 @@ index 000000000000..b6c9a707090f
 +/delete-node/ &pmc8380_6_thermal;
 +
 +/ {
-+	model = "ASUS Zenbook A14 UX3407QA";
-+	compatible = "asus,x1p42100-zenbook-a14", "qcom,x1p42100";
++	model = "ASUS Zenbook A14 (UX3407QA)";
++	compatible = "asus,zenbook-a14-ux3407qa", "qcom,x1p42100";
 +};
 +
 +&gpu_zap_shader {
-+	firmware-name = "qcom/x1p42100/ASUSTeK/zenbook-a14/qcdxkmsuc8380.mbn";
++	firmware-name = "qcom/x1e80100/ASUSTeK/zenbook-a14/qcdxkmsucpurwa.mbn";
 +};
 +
 +&remoteproc_adsp {

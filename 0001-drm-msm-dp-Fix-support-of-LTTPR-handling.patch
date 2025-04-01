@@ -1,7 +1,7 @@
 From 89f474f5ae68cbe2a7969c32d7b00749885c6132 Mon Sep 17 00:00:00 2001
 From: Aleksandrs Vinarskis <alex.vinarskis@gmail.com>
 Date: Sat, 22 Feb 2025 12:47:18 +0100
-Subject: [PATCH 01/12] drm/msm/dp: Fix support of LTTPR handling
+Subject: [PATCH 01/11] drm/msm/dp: Fix support of LTTPR handling
 
 Take into account LTTPR capabilities when selecting maximum allowed
 link rate, number of data lines. Initialize LTTPR before

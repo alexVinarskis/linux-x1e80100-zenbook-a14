@@ -1,7 +1,7 @@
 From 8b62ebf05d8af1f0c382d383ff85acf3e4960bca Mon Sep 17 00:00:00 2001
 From: Aleksandrs Vinarskis <alex.vinarskis@gmail.com>
 Date: Sun, 23 Feb 2025 19:38:04 +0100
-Subject: [PATCH 02/12] drm/msm/dp: Introduce link training per-segment for
+Subject: [PATCH 02/11] drm/msm/dp: Introduce link training per-segment for
  LTTPRs
 
 DisplayPort requires per-segment link training when LTTPR are switched

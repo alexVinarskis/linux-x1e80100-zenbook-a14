@@ -1,7 +1,7 @@
 From 8b584fb1bc59c0fb34185a4471d410f6399cb041 Mon Sep 17 00:00:00 2001
 From: Bjorn Andersson <bjorn.andersson@oss.qualcomm.com>
 Date: Tue, 18 Mar 2025 22:22:56 -0500
-Subject: [PATCH 04/12] phy: qcom: phy-qcom-snps-eusb2: Make repeater optional
+Subject: [PATCH 04/11] phy: qcom: phy-qcom-snps-eusb2: Make repeater optional
 
 In a multiport configuration based on the SNPS eUSB2 PHY it's not
 necessary that all ports are connected to something.
