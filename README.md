@@ -31,10 +31,10 @@ HW configurations tested
 | Display                 |     ✅ | Tested low-res OLED panel                                                                                    |
 | GPU Acceleration        |        | UX3407RA / X1E-78-100 should work oob. UX3407QA / X1P-42-100, X1-26-100 waiting for GPU support          |
 | Keyboard                |     ✅ |                                                                                                              |
-| Microphone              | TBD/❌ |                                                                                                              |
+| Microphone              |     ✅ |                                                                                                              |
 | NVMe                    |     ✅ |                                                                                                              |
-| Speakers                | TBD/❌ |                                                                                                              |
-| Audio Jack              | TBD/❌ |                                                                                                              |
+| Speakers                |     ✅ |                                                                                                              |
+| Audio Jack              |     ✅ |                                                                                                              |
 | Suspend                 |     ✅ | Suspends well, lid switch working. Power drop in sleep isn't best, depends on X1E generic support.           |
 | Touchpad                |     ✅ |                                                                                                              |
 | TPM                     |     ❌ | Firmware TPM                                                                                                 |
@@ -43,7 +43,7 @@ HW configurations tested
 | USB-C Booting           |     ✅ |                                                                                                              |
 | USB-C DP Alt Mode       |     ✅ |                                                                                                              |
 | USB-C DP over dock      |     ✅ | Series on the lists, not yet merged                                                                          |
-| HDMI                    | WIP/❌ | Parade PS185PDF DP1.4a to HDMI IC                                                                            |
+| HDMI                    |    WIP | Parade PS185PDF DP1.4a to HDMI IC                                                                            |
 | Wi-Fi                   |     ✅ | UX3407RA with FastConnect 7800 should work oob. UX3407QA requires firmware extraction and patching       |
 | EC                      | WIP/❌ | Similar to out-of-tree EC driver for Lenovo Slim 7x                                                          |
 
