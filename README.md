@@ -29,11 +29,11 @@ HW configurations tested
 | Bluetooth               |     ✅ |                                                                                                              |
 | Camera                  | WIP/❌ |                                                                                                              |
 | Display                 |     ✅ | Tested low-res OLED panel                                                                                    |
-| GPU Acceleration        |        | UX3407RA / X1E-78-100 should work oob. UX3407QA / X1P-42-100, X1-26-100 waiting for GPU support          |
+| GPU Acceleration        |        | UX3407RA / X1E-78-100 should work oob. UX3407QA / X1P-42-100, X1-26-100 waiting for GPU support.             |
 | Keyboard                |     ✅ |                                                                                                              |
 | Microphone              |     ✅ |                                                                                                              |
 | NVMe                    |     ✅ |                                                                                                              |
-| Speakers                |     ✅ |                                                                                                              |
+| Speakers                |     ✅ | Require userland configuration, see below.                                                                   |
 | Audio Jack              |     ✅ |                                                                                                              |
 | Suspend                 |     ✅ | Suspends well, lid switch working. Power drop in sleep isn't best, depends on X1E generic support.           |
 | Touchpad                |     ✅ |                                                                                                              |
@@ -44,8 +44,8 @@ HW configurations tested
 | USB-C DP Alt Mode       |     ✅ |                                                                                                              |
 | USB-C DP over dock      |     ✅ | Series on the lists, not yet merged                                                                          |
 | HDMI                    |    WIP | Parade PS185PDF DP1.4a to HDMI IC                                                                            |
-| Wi-Fi                   |     ✅ | UX3407RA with FastConnect 7800 should work oob. UX3407QA requires firmware extraction and patching       |
-| EC                      | WIP/❌ | Similar to out-of-tree EC driver for Lenovo Slim 7x                                                          |
+| Wi-Fi                   |     ✅ | UX3407RA with FastConnect 7800 should work oob. UX3407QA requires firmware extraction and patching.          |
+| EC                      | WIP/❌ | Similar to out-of-tree EC driver for Lenovo Slim 7x.                                                         |
 
 ## WCN688x WiFi
 
@@ -161,3 +161,30 @@ $ dmesg -w
 [ 3236.596250] wlP4p1s0: send auth to 50:64:2b:5f:e3:ba (try 1/3)
 [ 3236.601170] wlP4p1s0: authenticated
 ```
+
+## Audio configuration  
+
+Besides device tree changes in kernel, two things are required to get audio working: alsa configuration and toplogy firmware.
+
+### Audioreach-topology
+* Download latest sources with Asus Zenbook A14 support from https://github.com/alexVinarskis/audioreach-topology/tree/asus-zenbook-a14
+* Build via
+```bash
+cmake .
+cmake --build .
+```
+* Install compiled binary to firmware path via
+```bash
+sudo cp qcom/x1e80100/ASUSTeK/zenbook-a14/X1E80100-ASUS-Zenbook-A14-tplg.bin /lib/firmware/updates/qcom/x1e80100/X1E80100-ASUS-Zenbook-A14-tplg.bin
+```
+
+### Alsa configuration
+* Download lastet configuration with Asus Zenbook A14 support from https://github.com/alexVinarskis/alsa-ucm-conf/tree/asus-zenbook-a14
+* Follow instructions in `README.md` to unpack
+
+Reboot to apply changes. You should now have:
+* Working x2 speakers
+* Working x2 microphones
+* Working audio jack with microphone
+
+Audio over HDMI and USB Type-C DP alt mode is not yet supported.
