@@ -167,7 +167,7 @@ $ dmesg -w
 Besides device tree changes in kernel, two things are required to get audio working: alsa configuration and toplogy firmware.
 
 ### Audioreach-topology
-* Download latest sources with Asus Zenbook A14 support from https://github.com/alexVinarskis/audioreach-topology/tree/asus-zenbook-a14
+* Download latest sources with Asus Zenbook A14 support from https://github.com/linux-msm/audioreach-topology/
 * Build via
 ```bash
 cmake .
@@ -179,7 +179,7 @@ sudo cp qcom/x1e80100/ASUSTeK/zenbook-a14/X1E80100-ASUS-Zenbook-A14-tplg.bin /li
 ```
 
 ### Alsa configuration
-* Download lastet configuration with Asus Zenbook A14 support from https://github.com/alexVinarskis/alsa-ucm-conf/tree/asus-zenbook-a14
+* Download lastet configuration with Asus Zenbook A14 support from https://github.com/alsa-project/alsa-ucm-conf
 * Follow instructions in `README.md` to unpack
 
 Reboot to apply changes. You should now have:

@@ -1,7 +1,7 @@
-From 4ea684c85c950ee141e34b85e7488156c744707f Mon Sep 17 00:00:00 2001
+From 47472aee54afb417b85fb10148e28aa5cc4cf282 Mon Sep 17 00:00:00 2001
 From: Aleksandrs Vinarskis <alex.vinarskis@gmail.com>
 Date: Fri, 21 Mar 2025 12:09:53 +0100
-Subject: [PATCH 11/11] arm64: dts: qcom: Add support for X1-based Asus Zenbook
+Subject: [PATCH 4/4] arm64: dts: qcom: Add support for X1-based Asus Zenbook
  A14
 
 Initial support for Asus Zenbook A14. Particular moddel exists
@@ -39,11 +39,11 @@ Tested on UX3407QA with X1-26-100.
 Signed-off-by: Aleksandrs Vinarskis <alex.vinarskis@gmail.com>
 ---
  arch/arm64/boot/dts/qcom/Makefile             |    2 +
- arch/arm64/boot/dts/qcom/x1-zenbook-a14.dtsi  | 1258 +++++++++++++++++
- .../dts/qcom/x1e80100-asus-zenbook-a14.dts    |   45 +
- .../dts/qcom/x1p42100-asus-zenbook-a14.dts    |   48 +
- 4 files changed, 1353 insertions(+)
- create mode 100644 arch/arm64/boot/dts/qcom/x1-zenbook-a14.dtsi
+ .../boot/dts/qcom/x1-asus-zenbook-a14.dtsi    | 1307 +++++++++++++++++
+ .../dts/qcom/x1e80100-asus-zenbook-a14.dts    |   44 +
+ .../dts/qcom/x1p42100-asus-zenbook-a14.dts    |  137 ++
+ 4 files changed, 1490 insertions(+)
+ create mode 100644 arch/arm64/boot/dts/qcom/x1-asus-zenbook-a14.dtsi
  create mode 100644 arch/arm64/boot/dts/qcom/x1e80100-asus-zenbook-a14.dts
  create mode 100644 arch/arm64/boot/dts/qcom/x1p42100-asus-zenbook-a14.dts
 
@@ -65,12 +65,12 @@ index adb4d026bcc4..baa99f9e43ab 100644
  dtb-$(CONFIG_ARCH_QCOM)	+= x1e80100-qcp.dtb
 +dtb-$(CONFIG_ARCH_QCOM)	+= x1p42100-asus-zenbook-a14.dtb
  dtb-$(CONFIG_ARCH_QCOM)	+= x1p42100-crd.dtb
-diff --git a/arch/arm64/boot/dts/qcom/x1-zenbook-a14.dtsi b/arch/arm64/boot/dts/qcom/x1-zenbook-a14.dtsi
+diff --git a/arch/arm64/boot/dts/qcom/x1-asus-zenbook-a14.dtsi b/arch/arm64/boot/dts/qcom/x1-asus-zenbook-a14.dtsi
 new file mode 100644
-index 000000000000..fa556a52b857
+index 000000000000..599085d8bec2
 --- /dev/null
-+++ b/arch/arm64/boot/dts/qcom/x1-zenbook-a14.dtsi
-@@ -0,0 +1,1258 @@
++++ b/arch/arm64/boot/dts/qcom/x1-asus-zenbook-a14.dtsi
+@@ -0,0 +1,1307 @@
 +// SPDX-License-Identifier: BSD-3-Clause
 +/*
 + * Copyright (c) 2025 Qualcomm Innovation Center, Inc. All rights reserved.
@@ -375,6 +375,42 @@ index 000000000000..fa556a52b857
 +		regulator-max-microvolt = <3700000>;
 +
 +		regulator-always-on;
++		regulator-boot-on;
++	};
++
++	vreg_wcn_0p95: regulator-wcn-0p95 {
++		compatible = "regulator-fixed";
++
++		regulator-name = "VREG_WCN_0P95";
++		regulator-min-microvolt = <950000>;
++		regulator-max-microvolt = <950000>;
++
++		vin-supply = <&vreg_wcn_3p3>;
++	};
++
++	vreg_wcn_1p9: regulator-wcn-1p9 {
++		compatible = "regulator-fixed";
++
++		regulator-name = "VREG_WCN_1P9";
++		regulator-min-microvolt = <1900000>;
++		regulator-max-microvolt = <1900000>;
++
++		vin-supply = <&vreg_wcn_3p3>;
++	};
++
++	vreg_wcn_3p3: regulator-wcn-3p3 {
++		compatible = "regulator-fixed";
++
++		regulator-name = "VREG_WCN_3P3";
++		regulator-min-microvolt = <3300000>;
++		regulator-max-microvolt = <3300000>;
++
++		gpio = <&tlmm 214 GPIO_ACTIVE_HIGH>;
++		enable-active-high;
++
++		pinctrl-0 = <&wcn_sw_en>;
++		pinctrl-names = "default";
++
 +		regulator-boot-on;
 +	};
 +};
@@ -713,7 +749,7 @@ index 000000000000..fa556a52b857
 +
 +	/* Left-side display-adjacent port, PS8833 */
 +	typec-mux@8 {
-+		compatible = "parade,ps8830";
++		compatible = "parade,ps8833", "parade,ps8830";
 +		reg = <0x08>;
 +
 +		clocks = <&rpmhcc RPMH_RF_CLK3>;
@@ -803,7 +839,7 @@ index 000000000000..fa556a52b857
 +		pinctrl-names = "default";
 +	};
 +
-+	/* EC */
++	/* EC @0x5b */
 +};
 +
 +&i2c7 {
@@ -813,7 +849,7 @@ index 000000000000..fa556a52b857
 +
 +	/* Left-side user-adjacent port, PS8833 */
 +	typec-mux@8 {
-+		compatible = "parade,ps8830";
++		compatible = "parade,ps8833", "parade,ps8830";
 +		reg = <0x08>;
 +
 +		clocks = <&rpmhcc RPMH_RF_CLK4>;
@@ -1091,14 +1127,6 @@ index 000000000000..fa556a52b857
 +	gpio-reserved-ranges = <44 4>,  /* SPI11, TZ Protected */
 +			       <90 1>;	/* Unknown, TZ Protected */
 +
-+	bt_en_default: bt-en-sleep {
-+		pins = "gpio116";
-+		function = "gpio";
-+		drive-strength = <16>;
-+		bias-disable;
-+		output-low;
-+	};
-+
 +	cam_indicator_en: cam-indicator-en-state {
 +		pins = "gpio110";
 +		function = "gpio";
@@ -1224,6 +1252,27 @@ index 000000000000..fa556a52b857
 +		drive-strength = <2>;
 +		bias-disable;
 +	};
++
++	wcn_bt_en: wcn-bt-en-state {
++		pins = "gpio116";
++		function = "gpio";
++		drive-strength = <16>;
++		bias-disable;
++	};
++
++	wcn_sw_en: wcn-sw-en-state {
++		pins = "gpio214";
++		function = "gpio";
++		drive-strength = <2>;
++		bias-disable;
++	};
++
++	wcn_wlan_en: wcn-wlan-en-state {
++		pins = "gpio117";
++		function = "gpio";
++		drive-strength = <8>;
++		bias-disable;
++	};
 +};
 +
 +&uart21 {
@@ -1331,10 +1380,10 @@ index 000000000000..fa556a52b857
 +};
 diff --git a/arch/arm64/boot/dts/qcom/x1e80100-asus-zenbook-a14.dts b/arch/arm64/boot/dts/qcom/x1e80100-asus-zenbook-a14.dts
 new file mode 100644
-index 000000000000..0b70ab396cf4
+index 000000000000..74115bbf4ac1
 --- /dev/null
 +++ b/arch/arm64/boot/dts/qcom/x1e80100-asus-zenbook-a14.dts
-@@ -0,0 +1,45 @@
+@@ -0,0 +1,44 @@
 +// SPDX-License-Identifier: BSD-3-Clause
 +/*
 + * Copyright (c) 2025 Qualcomm Innovation Center, Inc. All rights reserved.
@@ -1344,7 +1393,7 @@ index 000000000000..0b70ab396cf4
 +/dts-v1/;
 +
 +#include "x1e80100.dtsi"
-+#include "x1-zenbook-a14.dtsi"
++#include "x1-asus-zenbook-a14.dtsi"
 +
 +/ {
 +	model = "ASUS Zenbook A14 (UX3407RA)";
@@ -1373,19 +1422,18 @@ index 000000000000..0b70ab396cf4
 +	status = "okay";
 +
 +	bluetooth {
++		/* TODO: add pwrseq once validated */
 +		compatible = "qcom,wcn7850-bt";
-+		pinctrl-names = "default";
-+		pinctrl-0 = <&bt_en_default>;
-+		enable-gpios = <&tlmm 116 GPIO_ACTIVE_HIGH>;
++
 +		max-speed = <3000000>;
 +	};
 +};
 diff --git a/arch/arm64/boot/dts/qcom/x1p42100-asus-zenbook-a14.dts b/arch/arm64/boot/dts/qcom/x1p42100-asus-zenbook-a14.dts
 new file mode 100644
-index 000000000000..48d2eefeadc3
+index 000000000000..86b16212c168
 --- /dev/null
 +++ b/arch/arm64/boot/dts/qcom/x1p42100-asus-zenbook-a14.dts
-@@ -0,0 +1,48 @@
+@@ -0,0 +1,137 @@
 +// SPDX-License-Identifier: BSD-3-Clause
 +/*
 + * Copyright (c) 2025 Qualcomm Innovation Center, Inc. All rights reserved.
@@ -1395,7 +1443,7 @@ index 000000000000..48d2eefeadc3
 +/dts-v1/;
 +
 +#include "x1p42100.dtsi"
-+#include "x1-zenbook-a14.dtsi"
++#include "x1-asus-zenbook-a14.dtsi"
 +
 +/delete-node/ &pmc8380_6;
 +/delete-node/ &pmc8380_6_thermal;
@@ -1403,10 +1451,92 @@ index 000000000000..48d2eefeadc3
 +/ {
 +	model = "ASUS Zenbook A14 (UX3407QA)";
 +	compatible = "asus,zenbook-a14-ux3407qa", "qcom,x1p42100";
++
++	wcn6855-pmu {
++		compatible = "qcom,wcn6855-pmu";
++
++		vddaon-supply = <&vreg_wcn_0p95>;
++		vddio-supply = <&vreg_wcn_1p9>;
++		vddpcie1p3-supply = <&vreg_wcn_1p9>;
++		vddpcie1p9-supply = <&vreg_wcn_1p9>;
++		vddpmu-supply = <&vreg_wcn_0p95>;
++		vddpmucx-supply = <&vreg_wcn_0p95>;
++		vddpmumx-supply = <&vreg_wcn_0p95>;
++		vddrfa0p95-supply = <&vreg_wcn_0p95>;
++		vddrfa1p3-supply = <&vreg_wcn_1p9>;
++		vddrfa1p9-supply = <&vreg_wcn_1p9>;
++
++		bt-enable-gpios = <&tlmm 116 GPIO_ACTIVE_HIGH>;
++		wlan-enable-gpios = <&tlmm 117 GPIO_ACTIVE_HIGH>;
++
++		pinctrl-0 = <&wcn_bt_en>, <&wcn_wlan_en>;
++		pinctrl-names = "default";
++
++		regulators {
++			vreg_pmu_rfa_cmn_0p8: ldo0 {
++				regulator-name = "vreg_pmu_rfa_cmn_0p8";
++			};
++
++			vreg_pmu_aon_0p8: ldo1 {
++				regulator-name = "vreg_pmu_aon_0p8";
++			};
++
++			vreg_pmu_wlcx_0p8: ldo2 {
++				regulator-name = "vreg_pmu_wlcx_0p8";
++			};
++
++			vreg_pmu_wlmx_0p8: ldo3 {
++				regulator-name = "vreg_pmu_wlmx_0p8";
++			};
++
++			vreg_pmu_btcmx_0p8: ldo4 {
++				regulator-name = "vreg_pmu_btcmx_0p8";
++			};
++
++			vreg_pmu_pcie_1p8: ldo5 {
++				regulator-name = "vreg_pmu_pcie_1p8";
++			};
++
++			vreg_pmu_pcie_0p9: ldo6 {
++				regulator-name = "vreg_pmu_pcie_0p9";
++			};
++
++			vreg_pmu_rfa_0p8: ldo7 {
++				regulator-name = "vreg_pmu_rfa_0p8";
++			};
++
++			vreg_pmu_rfa_1p2: ldo8 {
++				regulator-name = "vreg_pmu_rfa_1p2";
++			};
++
++			vreg_pmu_rfa_1p7: ldo9 {
++				regulator-name = "vreg_pmu_rfa_1p7";
++			};
++		};
++	};
 +};
 +
 +&gpu_zap_shader {
 +	firmware-name = "qcom/x1e80100/ASUSTeK/zenbook-a14/qcdxkmsucpurwa.mbn";
++};
++
++&pcie4_port0 {
++	wifi@0 {
++		compatible = "pci17cb,1103";
++		reg = <0x10000 0x0 0x0 0x0 0x0>;
++
++		vddaon-supply = <&vreg_pmu_aon_0p8>;
++		vddpcie0p9-supply = <&vreg_pmu_pcie_0p9>;
++		vddpcie1p8-supply = <&vreg_pmu_pcie_1p8>;
++		vddrfa0p8-supply = <&vreg_pmu_rfa_0p8>;
++		vddrfa1p2-supply = <&vreg_pmu_rfa_1p2>;
++		vddrfa1p8-supply = <&vreg_pmu_rfa_1p7>;
++		vddrfacmn-supply = <&vreg_pmu_rfa_cmn_0p8>;
++		vddwlcx-supply = <&vreg_pmu_wlcx_0p8>;
++		vddwlmx-supply = <&vreg_pmu_wlmx_0p8>;
++
++		qcom,calibration-variant = "UX3407Q";
++	};
 +};
 +
 +&remoteproc_adsp {
@@ -1428,9 +1558,16 @@ index 000000000000..48d2eefeadc3
 +
 +	bluetooth {
 +		compatible = "qcom,wcn6855-bt";
-+		pinctrl-names = "default";
-+		pinctrl-0 = <&bt_en_default>;
-+		enable-gpios = <&tlmm 116 GPIO_ACTIVE_HIGH>;
++
++		vddaon-supply = <&vreg_pmu_aon_0p8>;
++		vddbtcmx-supply = <&vreg_pmu_btcmx_0p8>;
++		vddrfa0p8-supply = <&vreg_pmu_rfa_0p8>;
++		vddrfa1p2-supply = <&vreg_pmu_rfa_1p2>;
++		vddrfa1p8-supply = <&vreg_pmu_rfa_1p7>;
++		vddrfacmn-supply = <&vreg_pmu_rfa_cmn_0p8>;
++		vddwlcx-supply = <&vreg_pmu_wlcx_0p8>;
++		vddwlmx-supply = <&vreg_pmu_wlmx_0p8>;
++
 +		max-speed = <3000000>;
 +	};
 +};

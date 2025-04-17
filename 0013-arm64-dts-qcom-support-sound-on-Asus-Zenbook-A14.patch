@@ -1,4 +1,4 @@
-From 4acc5a1ef137f5e0a3c7b5c271d28c0a33a17ad2 Mon Sep 17 00:00:00 2001
+From f38880ab89f795ab11a754e4fe7b27405c850d62 Mon Sep 17 00:00:00 2001
 From: Aleksandrs Vinarskis <alex.vinarskis@gmail.com>
 Date: Sun, 6 Apr 2025 18:23:53 +0200
 Subject: [PATCH] arm64: dts: qcom: support sound on Asus Zenbook A14
@@ -15,13 +15,13 @@ Now working/untested:
 
 Signed-off-by: Aleksandrs Vinarskis <alex.vinarskis@gmail.com>
 ---
- arch/arm64/boot/dts/qcom/x1-zenbook-a14.dtsi | 194 +++++++++++++++++++
+ .../boot/dts/qcom/x1-asus-zenbook-a14.dtsi    | 194 ++++++++++++++++++
  1 file changed, 194 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/qcom/x1-zenbook-a14.dtsi b/arch/arm64/boot/dts/qcom/x1-zenbook-a14.dtsi
-index 5199c2faac08..481ff5604132 100644
---- a/arch/arm64/boot/dts/qcom/x1-zenbook-a14.dtsi
-+++ b/arch/arm64/boot/dts/qcom/x1-zenbook-a14.dtsi
+diff --git a/arch/arm64/boot/dts/qcom/x1-asus-zenbook-a14.dtsi b/arch/arm64/boot/dts/qcom/x1-asus-zenbook-a14.dtsi
+index 599085d8bec2..ba32e2d5a727 100644
+--- a/arch/arm64/boot/dts/qcom/x1-asus-zenbook-a14.dtsi
++++ b/arch/arm64/boot/dts/qcom/x1-asus-zenbook-a14.dtsi
 @@ -22,6 +22,32 @@ aliases {
  		serial1 = &uart14;
  	};
@@ -52,10 +52,10 @@ index 5199c2faac08..481ff5604132 100644
 +		#sound-dai-cells = <1>;
 +	};
 +
- 	dp-connector {
- 		compatible = "dp-connector";
- 		label = "hdmi";
-@@ -166,6 +192,88 @@ linux,cma {
+ 	gpio-keys {
+ 		compatible = "gpio-keys";
+ 
+@@ -149,6 +175,88 @@ linux,cma {
  		};
  	};
  
@@ -144,7 +144,7 @@ index 5199c2faac08..481ff5604132 100644
  	vreg_edp_3p3: regulator-edp-3p3 {
  		compatible = "regulator-fixed";
  
-@@ -353,6 +461,13 @@ vreg_bob2: bob2 {
+@@ -372,6 +480,13 @@ vreg_bob2: bob2 {
  			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
  		};
  
@@ -158,7 +158,7 @@ index 5199c2faac08..481ff5604132 100644
  		vreg_l2b_3p0: ldo2 {
  			regulator-name = "vreg_l2b_3p0";
  			regulator-min-microvolt = <3072000>;
-@@ -828,6 +943,24 @@ keyboard@15 {
+@@ -847,6 +962,24 @@ keyboard@15 {
  	};
  };
  
@@ -183,7 +183,7 @@ index 5199c2faac08..481ff5604132 100644
  &mdss {
  	status = "okay";
  };
-@@ -1040,6 +1173,59 @@ &spi10 {
+@@ -1050,6 +1183,59 @@ &spi10 {
  	/* Unknown device */
  };
  
@@ -243,11 +243,10 @@ index 5199c2faac08..481ff5604132 100644
  &tlmm {
  	gpio-reserved-ranges = <44 4>,  /* SPI11, TZ Protected */
  			       <90 1>;	/* Unknown, TZ Protected */
-@@ -1183,6 +1369,14 @@ usb1_pwr_3p3_reg_en: usb1-pwr-3p3-reg-en-state {
- 		drive-strength = <2>;
+@@ -1180,6 +1366,14 @@ usb1_pwr_3p3_reg_en: usb1-pwr-3p3-reg-en-state {
  		bias-disable;
  	};
-+
+ 
 +	wcd_default: wcd-reset-n-active-state {
 +		pins = "gpio191";
 +		function = "gpio";
@@ -255,9 +254,10 @@ index 5199c2faac08..481ff5604132 100644
 +		bias-disable;
 +		output-low;
 +	};
- };
- 
- &uart21 {
++
+ 	wcn_bt_en: wcn-bt-en-state {
+ 		pins = "gpio116";
+ 		function = "gpio";
 -- 
 2.45.2
 
