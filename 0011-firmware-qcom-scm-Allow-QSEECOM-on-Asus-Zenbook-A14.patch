@@ -1,4 +1,4 @@
-From 60d042ec0ac9f2d6f31dd1e87fcdba5c118d9830 Mon Sep 17 00:00:00 2001
+From 2b01fa4db756eb7fb0da786bfa19847aec6986d0 Mon Sep 17 00:00:00 2001
 From: Aleksandrs Vinarskis <alex.vinarskis@gmail.com>
 Date: Fri, 21 Mar 2025 13:44:24 +0100
 Subject: [PATCH 3/4] firmware: qcom: scm: Allow QSEECOM on Asus Zenbook A14

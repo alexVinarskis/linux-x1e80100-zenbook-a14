@@ -1,10 +1,11 @@
-From 711a178a0d046d033e1e6ae4e68e7eeaf2a1bda7 Mon Sep 17 00:00:00 2001
+From a913a1f40be95abf26c646bf6ce743fc8dacfb2c Mon Sep 17 00:00:00 2001
 From: Aleksandrs Vinarskis <alex.vinarskis@gmail.com>
 Date: Fri, 21 Mar 2025 13:41:42 +0100
 Subject: [PATCH 2/4] dt-bindings: arm: qcom: Add Asus Zenbook A14
 
 Document the X1E-78-100 and X1P-42-100/X1-26-100 variants.
 
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Signed-off-by: Aleksandrs Vinarskis <alex.vinarskis@gmail.com>
 ---
  Documentation/devicetree/bindings/arm/qcom.yaml | 2 ++

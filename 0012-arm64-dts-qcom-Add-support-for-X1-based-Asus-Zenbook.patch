@@ -1,4 +1,4 @@
-From 47472aee54afb417b85fb10148e28aa5cc4cf282 Mon Sep 17 00:00:00 2001
+From 8e7ae97020ec68831ca6093935b3ff6e0f1c677c Mon Sep 17 00:00:00 2001
 From: Aleksandrs Vinarskis <alex.vinarskis@gmail.com>
 Date: Fri, 21 Mar 2025 12:09:53 +0100
 Subject: [PATCH 4/4] arm64: dts: qcom: Add support for X1-based Asus Zenbook
@@ -40,9 +40,9 @@ Signed-off-by: Aleksandrs Vinarskis <alex.vinarskis@gmail.com>
 ---
  arch/arm64/boot/dts/qcom/Makefile             |    2 +
  .../boot/dts/qcom/x1-asus-zenbook-a14.dtsi    | 1307 +++++++++++++++++
- .../dts/qcom/x1e80100-asus-zenbook-a14.dts    |   44 +
+ .../dts/qcom/x1e80100-asus-zenbook-a14.dts    |   33 +
  .../dts/qcom/x1p42100-asus-zenbook-a14.dts    |  137 ++
- 4 files changed, 1490 insertions(+)
+ 4 files changed, 1479 insertions(+)
  create mode 100644 arch/arm64/boot/dts/qcom/x1-asus-zenbook-a14.dtsi
  create mode 100644 arch/arm64/boot/dts/qcom/x1e80100-asus-zenbook-a14.dts
  create mode 100644 arch/arm64/boot/dts/qcom/x1p42100-asus-zenbook-a14.dts
@@ -67,7 +67,7 @@ index adb4d026bcc4..baa99f9e43ab 100644
  dtb-$(CONFIG_ARCH_QCOM)	+= x1p42100-crd.dtb
 diff --git a/arch/arm64/boot/dts/qcom/x1-asus-zenbook-a14.dtsi b/arch/arm64/boot/dts/qcom/x1-asus-zenbook-a14.dtsi
 new file mode 100644
-index 000000000000..599085d8bec2
+index 000000000000..81d2e27e21f4
 --- /dev/null
 +++ b/arch/arm64/boot/dts/qcom/x1-asus-zenbook-a14.dtsi
 @@ -0,0 +1,1307 @@
@@ -747,7 +747,7 @@ index 000000000000..599085d8bec2
 +
 +	status = "okay";
 +
-+	/* Left-side display-adjacent port, PS8833 */
++	/* Left-side display-adjacent port */
 +	typec-mux@8 {
 +		compatible = "parade,ps8833", "parade,ps8830";
 +		reg = <0x08>;
@@ -847,7 +847,7 @@ index 000000000000..599085d8bec2
 +
 +	status = "okay";
 +
-+	/* Left-side user-adjacent port, PS8833 */
++	/* Left-side user-adjacent port */
 +	typec-mux@8 {
 +		compatible = "parade,ps8833", "parade,ps8830";
 +		reg = <0x08>;
@@ -1380,10 +1380,10 @@ index 000000000000..599085d8bec2
 +};
 diff --git a/arch/arm64/boot/dts/qcom/x1e80100-asus-zenbook-a14.dts b/arch/arm64/boot/dts/qcom/x1e80100-asus-zenbook-a14.dts
 new file mode 100644
-index 000000000000..74115bbf4ac1
+index 000000000000..5b254d867694
 --- /dev/null
 +++ b/arch/arm64/boot/dts/qcom/x1e80100-asus-zenbook-a14.dts
-@@ -0,0 +1,44 @@
+@@ -0,0 +1,33 @@
 +// SPDX-License-Identifier: BSD-3-Clause
 +/*
 + * Copyright (c) 2025 Qualcomm Innovation Center, Inc. All rights reserved.
@@ -1416,17 +1416,6 @@ index 000000000000..74115bbf4ac1
 +			"qcom/x1e80100/ASUSTeK/zenbook-a14/cdsp_dtbs.elf";
 +
 +	status = "okay";
-+};
-+
-+&uart14 {
-+	status = "okay";
-+
-+	bluetooth {
-+		/* TODO: add pwrseq once validated */
-+		compatible = "qcom,wcn7850-bt";
-+
-+		max-speed = <3000000>;
-+	};
 +};
 diff --git a/arch/arm64/boot/dts/qcom/x1p42100-asus-zenbook-a14.dts b/arch/arm64/boot/dts/qcom/x1p42100-asus-zenbook-a14.dts
 new file mode 100644
