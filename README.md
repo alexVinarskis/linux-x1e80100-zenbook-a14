@@ -5,7 +5,7 @@ As changes will be merged upstream, redundant patches will be dropped from this 
 ## Test setup
 Kernel
 * `linux-next`
-* current patchset tested on `next-20250327`
+* current patchset tested on `next-20250424`
 
 Initramfs
 * Ubuntu's auto-built from kernel installation
