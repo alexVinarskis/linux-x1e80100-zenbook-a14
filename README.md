@@ -5,7 +5,7 @@ As changes will be merged upstream, redundant patches will be dropped from this 
 ## Test setup
 Kernel
 * `linux-next`
-* current patchset tested on `next-20250424`
+* current patchset tested on `next-20250509`
 
 Initramfs
 * Ubuntu's auto-built from kernel installation
@@ -27,7 +27,7 @@ HW configurations tested
 | Battery Charging        |     ✅ |                                                                                                              |
 | Battery Info            |     ✅ |                                                                                                              |
 | Bluetooth               |     ✅ |                                                                                                              |
-| Camera                  | WIP/❌ |                                                                                                              |
+| Camera                  | WIP/❌ | With patch attached camera sensor probes, but cannot get image yet.                                          |
 | Display                 |     ✅ | Tested low-res OLED panel                                                                                    |
 | GPU Acceleration        |        | UX3407RA / X1E-78-100 should work oob. UX3407QA / X1P-42-100, X1-26-100 waiting for GPU support.             |
 | Keyboard                |     ✅ |                                                                                                              |
