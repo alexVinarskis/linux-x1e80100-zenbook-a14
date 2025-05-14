@@ -1,26 +1,27 @@
-From 9187740a1715b8e2a87688a401fcc05375eb3d04 Mon Sep 17 00:00:00 2001
+From 4c0a828c09dc462a7d1cbee3b09ce2ba9fce1cff Mon Sep 17 00:00:00 2001
 From: Aleksandrs Vinarskis <alex.vinarskis@gmail.com>
 Date: Sun, 6 Apr 2025 22:10:40 +0200
-Subject: [PATCH] WIP: arm64: dts: qcom: support camera on Asus Zenbook A14
+Subject: [PATCH 2/3] arm64: dts: qcom: support camera on Asus Zenbook A14
 
 The device uses Omnivision ov02c10 RGB sensor. Reset GPIO, LDOs are
 extracted from decompiled AeoB files.
 
-WIP:
+Current state:
 - Sensor probes correctly
-- camss is not starting with errors:
+- Video stream runs
+- camss spams dmesg with (apparently non-critical) errors:
   $ cam_cc_ife_1_gdsc status stuck at 'off'
   $ cam_cc_pll8 failed to enable!
   $ cam_cc_pll8 failed to enable!
   $ ...
 
-Not-signed-off-by: Aleksandrs Vinarskis <alex.vinarskis@gmail.com>
+Signed-off-by: Aleksandrs Vinarskis <alex.vinarskis@gmail.com>
 ---
  .../boot/dts/qcom/x1-asus-zenbook-a14.dtsi    | 99 +++++++++++++++++++
  1 file changed, 99 insertions(+)
 
 diff --git a/arch/arm64/boot/dts/qcom/x1-asus-zenbook-a14.dtsi b/arch/arm64/boot/dts/qcom/x1-asus-zenbook-a14.dtsi
-index 1f72175317dd..fc004e8c0b8c 100644
+index 1f72175317dd..c97a1c302e8f 100644
 --- a/arch/arm64/boot/dts/qcom/x1-asus-zenbook-a14.dtsi
 +++ b/arch/arm64/boot/dts/qcom/x1-asus-zenbook-a14.dtsi
 @@ -525,6 +525,13 @@ vreg_l6b_1p8: ldo6 {
@@ -107,7 +108,7 @@ index 1f72175317dd..fc004e8c0b8c 100644
 +		assigned-clocks = <&camcc CAM_CC_MCLK4_CLK>;
 +		assigned-clock-rates = <19200000>;
 +
-+		orientation = <0>; /* front facing */
++		orientation = <0>;
 +
 +		avdd-supply = <&vreg_l7b_2p8>;
 +		dvdd-supply = <&vreg_l7b_2p8>;
@@ -115,7 +116,7 @@ index 1f72175317dd..fc004e8c0b8c 100644
 +
 +		port {
 +			ov02c10_ep: endpoint {
-+				data-lanes = <2>;
++				data-lanes = <1 2>;
 +				link-frequencies = /bits/ 64 <400000000>;
 +				remote-endpoint = <&csiphy4_ep>;
 +			};

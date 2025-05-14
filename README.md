@@ -27,7 +27,7 @@ HW configurations tested
 | Battery Charging        |     ✅ |                                                                                                              |
 | Battery Info            |     ✅ |                                                                                                              |
 | Bluetooth               |     ✅ |                                                                                                              |
-| Camera                  | WIP/❌ | With patch attached camera sensor probes, but cannot get image yet.                                          |
+| Camera                  |        | Works on top of Bryan/Linaro tree. Video is upside down. ov02c10 needs to gain vflip/hflip support           |
 | Display                 |     ✅ | Tested low-res OLED panel                                                                                    |
 | GPU Acceleration        |        | UX3407RA / X1E-78-100 should work oob. UX3407QA / X1P-42-100, X1-26-100 waiting for GPU support.             |
 | Keyboard                |     ✅ |                                                                                                              |
