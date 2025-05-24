@@ -1,0 +1,152 @@
+From a9076cad826aaf8926c17fc873b3a605e0727e80 Mon Sep 17 00:00:00 2001
+From: Aleksandrs Vinarskis <alex.vinarskis@gmail.com>
+Date: Sat, 17 May 2025 10:56:51 +0200
+Subject: [PATCH 2/2] regulator: Introduce dummy regulator consumer driver
+
+Introduce a very simple dummy consumer driver. Designed to consume
+a single regulator 'vdd', the driver will power-on on probe and PM
+suspend (if supported), power-off on remove and PM resume (if enabled).
+
+There are two main reasons for this driver:
+1. Create a pseudo-consumer in place of real devices which are not or
+   cannot be described in the device-tree. Examples would be integrated
+   USB UVC camera (present on some arm64 laptops) or dedicated keyboard
+   backlight regulator (hypothetical). Instead of leaving regulator
+   without consumer and `regulator-always-on` property, one could bind
+   to dummy consumer to save some power during suspend.
+2. A great development tool.
+
+Signed-off-by: Aleksandrs Vinarskis <alex.vinarskis@gmail.com>
+---
+ drivers/regulator/Kconfig          |  9 ++++
+ drivers/regulator/Makefile         |  1 +
+ drivers/regulator/dummy-consumer.c | 85 ++++++++++++++++++++++++++++++
+ 3 files changed, 95 insertions(+)
+ create mode 100644 drivers/regulator/dummy-consumer.c
+
+diff --git a/drivers/regulator/Kconfig b/drivers/regulator/Kconfig
+index 6d8988387da4..eb907ecbcbe8 100644
+--- a/drivers/regulator/Kconfig
++++ b/drivers/regulator/Kconfig
+@@ -30,6 +30,15 @@ config REGULATOR_DEBUG
+ 	help
+ 	  Say yes here to enable debugging support.
+ 
++config REGULATOR_DUMMY_CONSUMER
++	tristate "Dummy regulator consumer support"
++	help
++	  This driver provides a dummy consumer for a device behind an
++	  USB phy (for example) that needs power supplies, but has no
++	  own device node since it's enumerated by USB.
++
++	  If unsure, say no.
++
+ config REGULATOR_FIXED_VOLTAGE
+ 	tristate "Fixed voltage regulator support"
+ 	help
+diff --git a/drivers/regulator/Makefile b/drivers/regulator/Makefile
+index c0bc7a0f4e67..e1d1029fd87a 100644
+--- a/drivers/regulator/Makefile
++++ b/drivers/regulator/Makefile
+@@ -5,6 +5,7 @@
+ 
+ 
+ obj-$(CONFIG_REGULATOR) += core.o dummy.o fixed-helper.o helpers.o devres.o irq_helpers.o
++obj-$(CONFIG_REGULATOR_DUMMY_CONSUMER) += dummy-consumer.o
+ obj-$(CONFIG_REGULATOR_NETLINK_EVENTS) += event.o
+ obj-$(CONFIG_OF) += of_regulator.o
+ obj-$(CONFIG_REGULATOR_FIXED_VOLTAGE) += fixed.o
+diff --git a/drivers/regulator/dummy-consumer.c b/drivers/regulator/dummy-consumer.c
+new file mode 100644
+index 000000000000..813c7abce660
+--- /dev/null
++++ b/drivers/regulator/dummy-consumer.c
+@@ -0,0 +1,85 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Copyright (c) 2025, Aleksandrs Vinarskis
++ */
++
++#include <linux/module.h>
++#include <linux/of.h>
++#include <linux/platform_device.h>
++#include <linux/pm.h>
++#include <linux/regulator/consumer.h>
++
++struct dummy_consumer_data {
++	struct regulator *regulator;
++};
++
++static int dummy_consumer_probe(struct platform_device *pdev)
++{
++	struct dummy_consumer_data *data;
++	int ret;
++
++	data = devm_kzalloc(&pdev->dev, sizeof(*data), GFP_KERNEL);
++	if (!data)
++		return -ENOMEM;
++
++	data->regulator = devm_regulator_get(&pdev->dev, "vdd");
++	if (IS_ERR(data->regulator)) {
++		dev_err(&pdev->dev, "Failed to get regulator\n");
++		return PTR_ERR(data->regulator);
++	}
++
++	ret = regulator_enable(data->regulator);
++	if (ret) {
++		dev_err(&pdev->dev, "Failed to enable regulator: %d\n", ret);
++		return ret;
++	}
++
++	platform_set_drvdata(pdev, data);
++
++	dev_dbg(&pdev->dev, "Dummy regulator consumer initialized\n");
++	return 0;
++}
++
++static void dummy_consumer_remove(struct platform_device *pdev)
++{
++	struct dummy_consumer_data *data = platform_get_drvdata(pdev);
++
++	regulator_disable(data->regulator);
++}
++
++static int dummy_consumer_resume(struct device *dev)
++{
++	struct dummy_consumer_data *data = dev_get_drvdata(dev);
++
++	return regulator_enable(data->regulator);
++}
++
++static int dummy_consumer_suspend(struct device *dev)
++{
++	struct dummy_consumer_data *data = dev_get_drvdata(dev);
++
++	return regulator_disable(data->regulator);
++}
++
++static DEFINE_SIMPLE_DEV_PM_OPS(dummy_consumer_pm, dummy_consumer_suspend, dummy_consumer_resume);
++
++static const struct of_device_id dummy_consumer_of_match[] = {
++	{ .compatible = "regulator-dummy-consumer", },
++	{ }
++};
++MODULE_DEVICE_TABLE(of, dummy_consumer_of_match);
++
++static struct platform_driver dummy_consumer_driver = {
++	.driver = {
++		.name = "regulator-dummy-consumer",
++		.of_match_table = dummy_consumer_of_match,
++		.pm = pm_sleep_ptr(&dummy_consumer_pm),
++	},
++	.probe = dummy_consumer_probe,
++	.remove = dummy_consumer_remove,
++};
++module_platform_driver(dummy_consumer_driver);
++
++MODULE_AUTHOR("Aleksandrs Vinarskis <alex.vinarskis@gmail.com>");
++MODULE_DESCRIPTION("Dummy regulator consumer driver");
++MODULE_LICENSE("GPL");
+-- 
+2.45.2
+
