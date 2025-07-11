@@ -1,0 +1,52 @@
+From 9a8b1ca37e60f027c1859f9db786c279c842aa90 Mon Sep 17 00:00:00 2001
+From: Aleksandrs Vinarskis <alex.vinarskis@gmail.com>
+Date: Tue, 8 Jul 2025 22:50:50 +0200
+Subject: [PATCH 5/7] dt-bindings: display: panel: samsung,atna40ct06: document
+ ATNA40CT06
+
+The Samsung ATNA40CT06 panel is a 14" AMOLED eDP panel. It is
+similar to the ATNA33XC20 except that it is larger and has a
+different resolution. It is found in some arm64 laptops, eg.
+Asus Zenbook A14 UX3407QA.
+
+Raw panel edid:
+
+00 ff ff ff ff ff ff 00 4c 83 0d 42 00 00 00 00
+00 22 01 04 b5 1e 13 78 02 0c f1 ae 52 3c b9 23
+0c 50 54 00 00 00 01 01 01 01 01 01 01 01 01 01
+01 01 01 01 01 01 42 3c 80 a0 70 b0 24 40 30 20
+88 00 2e bd 10 00 00 1b 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 fc
+00 41 54 4e 41 34 30 43 54 30 36 2d 30 20 01 7d
+
+70 20 79 02 00 20 00 0c 4c 83 00 0d 42 00 00 00
+00 00 22 00 21 00 1d ca 0b 5e 07 80 07 b0 04 00
+e1 fa 51 cb 13 b9 3d d2 0c 01 45 54 40 5e d0 60
+18 10 23 78 26 00 09 07 06 03 00 00 00 50 00 00
+22 00 14 8d 5a 02 85 7f 07 9f 00 2f 00 1f 00 af
+04 23 00 07 00 07 00 81 00 0b e3 05 80 00 e6 06
+05 01 74 60 02 2e 00 06 00 45 40 5e d0 60 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 b0 90
+
+Signed-off-by: Aleksandrs Vinarskis <alex.vinarskis@gmail.com>
+---
+ .../devicetree/bindings/display/panel/samsung,atna33xc20.yaml   | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/Documentation/devicetree/bindings/display/panel/samsung,atna33xc20.yaml b/Documentation/devicetree/bindings/display/panel/samsung,atna33xc20.yaml
+index bd716a853307..7ba9ff4dca9f 100644
+--- a/Documentation/devicetree/bindings/display/panel/samsung,atna33xc20.yaml
++++ b/Documentation/devicetree/bindings/display/panel/samsung,atna33xc20.yaml
+@@ -19,6 +19,8 @@ properties:
+       - const: samsung,atna33xc20
+       - items:
+           - enum:
++              # Samsung 14" FHD+ (1920x1200 pixels) eDP AMOLED panel
++              - samsung,atna40ct06
+               # Samsung 14" WQXGA+ (2880x1800 pixels) eDP AMOLED panel
+               - samsung,atna40cu11
+               # Samsung 14" WQXGA+ (2880×1800 pixels) eDP AMOLED panel
+-- 
+2.45.2
+

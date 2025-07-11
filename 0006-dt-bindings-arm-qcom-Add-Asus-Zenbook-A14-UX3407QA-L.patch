@@ -1,0 +1,39 @@
+From 7d46aaae4cfa4758a4b96267b8c879a3026ebaa9 Mon Sep 17 00:00:00 2001
+From: Aleksandrs Vinarskis <alex.vinarskis@gmail.com>
+Date: Tue, 8 Jul 2025 23:01:45 +0200
+Subject: [PATCH 6/7] dt-bindings: arm: qcom: Add Asus Zenbook A14 UX3407QA
+ LCD/OLED variants
+
+X1/X1 Plus variant of the said device comes in either FHD+ OLED or FHD+
+LCD panel, and shares the same model number UX3407QA. It appears LCD
+panel's brightness adjustment is PWM backlight controlled, so a
+dedicated device-tree is required. Introduce dedicated compatibles with
+fallback to 'asus,zenbook-a14-ux3407qa' as they are otherwise the same.
+
+Signed-off-by: Aleksandrs Vinarskis <alex.vinarskis@gmail.com>
+---
+ Documentation/devicetree/bindings/arm/qcom.yaml | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
+
+diff --git a/Documentation/devicetree/bindings/arm/qcom.yaml b/Documentation/devicetree/bindings/arm/qcom.yaml
+index 162f80123cf6..f43d66df3852 100644
+--- a/Documentation/devicetree/bindings/arm/qcom.yaml
++++ b/Documentation/devicetree/bindings/arm/qcom.yaml
+@@ -1160,7 +1160,13 @@ properties:
+ 
+       - items:
+           - enum:
+-              - asus,zenbook-a14-ux3407qa
++              - asus,zenbook-a14-ux3407qa-lcd
++              - asus,zenbook-a14-ux3407qa-oled
++          - const: asus,zenbook-a14-ux3407qa
++          - const: qcom,x1p42100
++
++      - items:
++          - enum:
+               - qcom,x1p42100-crd
+           - const: qcom,x1p42100
+ 
+-- 
+2.45.2
+
