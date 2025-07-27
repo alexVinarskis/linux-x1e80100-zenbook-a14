@@ -1,9 +1,10 @@
-From d99d56f1a46049a293162894f141e9008388a9e2 Mon Sep 17 00:00:00 2001
+From 4c1e59fd93efd8acf66df8c60a599606e06bc245 Mon Sep 17 00:00:00 2001
 From: Aleksandrs Vinarskis <alex.vinarskis@gmail.com>
 Date: Thu, 10 Jul 2025 18:32:39 +0200
 Subject: [PATCH 3/7] drm/panel-edp: Add BOE NV140WUM-N64
 
-Timings taken from NV140WUM-N41.
+Timings taken from NV140WUM-N41. It is found in some arm64 laptops,
+eg. Asus Zenbook A14 UX3407QA.
 
 The raw edid of the panel is:
 00 ff ff ff ff ff ff 00 09 e5 f6 0c 00 00 00 00
@@ -30,7 +31,7 @@ Signed-off-by: Aleksandrs Vinarskis <alex.vinarskis@gmail.com>
  1 file changed, 1 insertion(+)
 
 diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/panel-edp.c
-index 50b573727f39..0070aefa79f3 100644
+index 9a56e208cbdd..b334926e96ed 100644
 --- a/drivers/gpu/drm/panel/panel-edp.c
 +++ b/drivers/gpu/drm/panel/panel-edp.c
 @@ -1947,6 +1947,7 @@ static const struct edp_panel_entry edp_panels[] = {
@@ -42,5 +43,5 @@ index 50b573727f39..0070aefa79f3 100644
  	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0d73, &delay_200_500_e80, "NE140WUM-N6S"),
  
 -- 
-2.45.2
+2.48.1
 

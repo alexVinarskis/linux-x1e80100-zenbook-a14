@@ -1,4 +1,4 @@
-From 2b91104d9af6ce75b1d5a20cfe00d6190bec8d05 Mon Sep 17 00:00:00 2001
+From 10a75595cece2b29147019819d38845d826ca110 Mon Sep 17 00:00:00 2001
 From: Aleksandrs Vinarskis <alex.vinarskis@gmail.com>
 Date: Tue, 8 Jul 2025 22:49:28 +0200
 Subject: [PATCH 4/7] dt-bindings: display: panel: samsung,atna40cu11: document
@@ -35,18 +35,18 @@ Signed-off-by: Aleksandrs Vinarskis <alex.vinarskis@gmail.com>
  1 file changed, 2 insertions(+)
 
 diff --git a/Documentation/devicetree/bindings/display/panel/samsung,atna33xc20.yaml b/Documentation/devicetree/bindings/display/panel/samsung,atna33xc20.yaml
-index 31f0c0f038e4..bd716a853307 100644
+index e36659340ef3..5e2ce200025f 100644
 --- a/Documentation/devicetree/bindings/display/panel/samsung,atna33xc20.yaml
 +++ b/Documentation/devicetree/bindings/display/panel/samsung,atna33xc20.yaml
-@@ -19,6 +19,8 @@ properties:
-       - const: samsung,atna33xc20
-       - items:
+@@ -21,6 +21,8 @@ properties:
            - enum:
+               # Samsung 13" 3K (2880×1920 pixels) eDP AMOLED panel
+               - samsung,atna30dw01
 +              # Samsung 14" WQXGA+ (2880x1800 pixels) eDP AMOLED panel
 +              - samsung,atna40cu11
                # Samsung 14" WQXGA+ (2880×1800 pixels) eDP AMOLED panel
                - samsung,atna40yk20
                # Samsung 14.5" WQXGA+ (2880x1800 pixels) eDP AMOLED panel
 -- 
-2.45.2
+2.48.1
 
