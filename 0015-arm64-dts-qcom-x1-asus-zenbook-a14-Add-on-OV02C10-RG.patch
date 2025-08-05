@@ -1,30 +1,30 @@
-From 4c0a828c09dc462a7d1cbee3b09ce2ba9fce1cff Mon Sep 17 00:00:00 2001
+From 12dcd1a3cc1020ce1ab069edfcb7e0e769a754d6 Mon Sep 17 00:00:00 2001
 From: Aleksandrs Vinarskis <alex.vinarskis@gmail.com>
-Date: Sun, 6 Apr 2025 22:10:40 +0200
-Subject: [PATCH 2/3] arm64: dts: qcom: support camera on Asus Zenbook A14
+Date: Thu, 31 Jul 2025 21:56:35 +0200
+Subject: [PATCH 1/2] arm64: dts: qcom: x1-asus-zenbook-a14: Add on OV02C10 RGB
+ sensor on CSIPHY4
 
 The device uses Omnivision ov02c10 RGB sensor. Reset GPIO, LDOs are
 extracted from decompiled AeoB files.
 
-Current state:
-- Sensor probes correctly
-- Video stream runs
-- camss spams dmesg with (apparently non-critical) errors:
-  $ cam_cc_ife_1_gdsc status stuck at 'off'
-  $ cam_cc_pll8 failed to enable!
-  $ cam_cc_pll8 failed to enable!
-  $ ...
-
 Signed-off-by: Aleksandrs Vinarskis <alex.vinarskis@gmail.com>
 ---
- .../boot/dts/qcom/x1-asus-zenbook-a14.dtsi    | 99 +++++++++++++++++++
- 1 file changed, 99 insertions(+)
+ .../boot/dts/qcom/x1-asus-zenbook-a14.dtsi    | 102 ++++++++++++++++++
+ 1 file changed, 102 insertions(+)
 
 diff --git a/arch/arm64/boot/dts/qcom/x1-asus-zenbook-a14.dtsi b/arch/arm64/boot/dts/qcom/x1-asus-zenbook-a14.dtsi
-index 1f72175317dd..c97a1c302e8f 100644
+index f1d269648500..ed9fc35435f5 100644
 --- a/arch/arm64/boot/dts/qcom/x1-asus-zenbook-a14.dtsi
 +++ b/arch/arm64/boot/dts/qcom/x1-asus-zenbook-a14.dtsi
-@@ -525,6 +525,13 @@ vreg_l6b_1p8: ldo6 {
+@@ -8,6 +8,7 @@
+ #include <dt-bindings/input/gpio-keys.h>
+ #include <dt-bindings/input/input.h>
+ #include <dt-bindings/leds/common.h>
++#include <dt-bindings/phy/phy.h>
+ #include <dt-bindings/pinctrl/qcom,pmic-gpio.h>
+ #include <dt-bindings/regulator/qcom,rpmh-regulator.h>
+ 
+@@ -508,6 +509,13 @@ vreg_l6b_1p8: ldo6 {
  			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
  		};
  
@@ -38,7 +38,7 @@ index 1f72175317dd..c97a1c302e8f 100644
  		vreg_l8b_3p0: ldo8 {
  			regulator-name = "vreg_l8b_3p0";
  			regulator-min-microvolt = <3072000>;
-@@ -775,12 +782,88 @@ vreg_l3j_0p8: ldo3 {
+@@ -758,6 +766,84 @@ vreg_l3j_0p8: ldo3 {
  			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
  		};
  	};
@@ -57,20 +57,9 @@ index 1f72175317dd..c97a1c302e8f 100644
 +			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
 +		};
 +	};
- };
- 
- &gpu {
- 	status = "okay";
- };
- 
-+&camcc {
-+	status = "okay";
 +};
 +
 +&camss {
-+	vdd-csiphy-0p8-supply = <&vreg_l2c_0p8>;
-+	vdd-csiphy-1p2-supply = <&vreg_l1c_1p2>;
-+
 +	status = "okay";
 +
 +	ports {
@@ -109,6 +98,7 @@ index 1f72175317dd..c97a1c302e8f 100644
 +		assigned-clock-rates = <19200000>;
 +
 +		orientation = <0>;
++		rotation = <180>;
 +
 +		avdd-supply = <&vreg_l7b_2p8>;
 +		dvdd-supply = <&vreg_l7b_2p8>;
@@ -124,10 +114,16 @@ index 1f72175317dd..c97a1c302e8f 100644
 +	};
 +};
 +
- &i2c0 {
- 	clock-frequency = <400000>;
++&csiphy4 {
++	vdda-0p8-supply = <&vreg_l2c_0p8>;
++	vdda-1p2-supply = <&vreg_l1c_1p2>;
++	phy-type = <PHY_TYPE_DPHY>;
++
++	status = "okay";
+ };
  
-@@ -1273,6 +1356,22 @@ cam_indicator_en: cam-indicator-en-state {
+ &i2c0 {
+@@ -1238,6 +1324,22 @@ cam_indicator_en: cam-indicator-en-state {
  		bias-disable;
  	};
  
@@ -151,5 +147,5 @@ index 1f72175317dd..c97a1c302e8f 100644
  		pins = "gpio70";
  		function = "gpio";
 -- 
-2.45.2
+2.48.1
 
