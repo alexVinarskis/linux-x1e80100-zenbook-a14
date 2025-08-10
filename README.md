@@ -188,3 +188,97 @@ Reboot to apply changes. You should now have:
 * Working audio jack with microphone
 
 Audio over HDMI and USB Type-C DP alt mode is not yet supported.
+
+## Camera configuration
+
+The camera requires `libcamera` to function, and can be tested with `qcam` (part of `libcamera-tools`). However, for it to work with user-space app including browser, it must be accessible via pipewire. Sample output:
+
+```bash
+$ wpctl status
+PipeWire 'pipewire-0' [1.2.7, ...]
+...
+Video
+ ├─ Devices:
+ │      51. Qualcomm Camera Subsystem           [v4l2]
+ │      52. Qualcomm Camera Subsystem           [v4l2]
+ │      53. Qualcomm Camera Subsystem           [v4l2]
+ │      54. Qualcomm Camera Subsystem           [v4l2]
+ │      39. ov02c10                             [libcamera]
+ ├─ Sinks:
+ │
+ ├─ Sources:
+ │  *   53. Built-in Front Camera
+...
+```
+
+Notice `libcamera` entry. This means pipewire recognized the camera, and it can be now used. You may skip to `Userland support` section.
+
+Otheriwse, if `qcam` is working, but pipewire does not detect it, you need to build libcamera and pipewire from source. It was reported that everything worked out of the box on Arch, but required below manual steps on Ubuntu Concept 25.04.
+
+### Build & Install libcamera
+
+First, remove currently installed `libcamera` (if any), to prevent conflicts:
+```bash
+sudo apt remove libcamera-dev libcamera0.4 libcamera-tools
+sudo apt purge libcamera-dev libcamera0.4 libcamera-tools
+sudo apt autoremove
+```
+
+Install dependencies for the local build:
+```bash
+sudo apt install git qt6-base-dev qt6-base-dev-tools libqt6opengl6-dev
+```
+Clone & build:
+```bash
+git clone https://git.libcamera.org/libcamera/libcamera.git
+cd libcamera
+
+rm -rf build
+meson setup build --prefix=/usr -Dpipelines=all -Dqcam=enabled
+ninja -C build
+```
+
+Install:
+```bash
+sudo ninja -C build install
+sudo ldconfig
+```
+
+Running `qcam` will now show a new version in the window title (0.5.1 as of today).
+
+### Build & Install Pipewire
+
+Install dependencies for the local build:
+```bash
+sudo apt install git libboost-filesystem1.83.0  libboost-log1.83.0  liblttng-ust-common1t64  liblttng-ust-ctl5t64  liblttng-ust1t64  libpisp-common  libpisp1 libdbus-glib-1-dev libv4l-dev libudev-dev libjpeg-dev libepoxy-dev
+```
+
+Clone & build. It appears pipewire it tightly tied to the desktop environemnt (at least on Ubuntu), and attempt to remove it breaks things. Do not remove local installation, but do a dirty install of local binaries on top. Because of this, make to sure to _not_ use the latest version, but the same version as installed on your host (eg. for Ubuntu Concept 25.04 its `1.2.7` as of today):
+
+```bash
+# IMPORTANT: Make sure to checkout same tag as currently installed on your host
+git clone https://gitlab.freedesktop.org/pipewire/pipewire.git -b 1.2.7
+cd pipewire
+
+rm -rf build
+meson build/ --prefix=/usr --buildtype=release -Dv4l2=enabled -Dlibcamera=enabled
+ninja -C build/
+```
+
+Install:
+```bash
+sudo ninja -C build/ install
+sudo ldconfig
+```
+
+### Userland support
+
+Once installed everything, reboot, or otherwise restart required services:
+```
+systemctl --user restart pipewire pipewire-pulse wireplumber
+```
+
+Generic apps like Gnome's 'Camera' should now work.
+
+#### Firefox support
+In firefox navigate to "about:config" and look for the option 'media.webrtc.camera.allow-pipewire', set it to 'True', restart the browser (all windows).
