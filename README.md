@@ -226,7 +226,7 @@ sudo apt autoremove
 
 Install dependencies for the local build:
 ```bash
-sudo apt install git qt6-base-dev qt6-base-dev-tools libqt6opengl6-dev
+sudo apt install git qt6-base-dev qt6-base-dev-tools libqt6opengl6-dev libjpeg-dev python3-jinja2
 ```
 Clone & build:
 ```bash
