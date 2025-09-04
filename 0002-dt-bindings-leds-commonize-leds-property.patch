@@ -1,0 +1,83 @@
+From 4a160c4fc4eddd1cf64f529e004f05b05b491ece Mon Sep 17 00:00:00 2001
+From: Aleksandrs Vinarskis <alex@vinarskis.com>
+Date: Fri, 5 Sep 2025 01:15:09 +0200
+Subject: [PATCH 2/4] dt-bindings: leds: commonize leds property
+
+A number of existing schemas uses 'leds' property to provide
+phandle-array of LED(s) to the consumer. Additionally, with the
+upcoming privacy-led support in device-tree, v4l2 subnode could be a
+LED consumer, meaning that all camera sensors should support 'leds'
+property via common 'video-interface-devices.yaml'.
+
+To avoid dublication, commonize 'leds' property to newly introduced
+'led-consumer.yaml'.
+
+Signed-off-by: Aleksandrs Vinarskis <alex@vinarskis.com>
+---
+ .../devicetree/bindings/leds/backlight/led-backlight.yaml  | 7 +------
+ .../devicetree/bindings/leds/leds-group-multicolor.yaml    | 6 +-----
+ .../devicetree/bindings/media/video-interface-devices.yaml | 3 +++
+ 3 files changed, 5 insertions(+), 11 deletions(-)
+
+diff --git a/Documentation/devicetree/bindings/leds/backlight/led-backlight.yaml b/Documentation/devicetree/bindings/leds/backlight/led-backlight.yaml
+index f5554da6bc6c..5e19b4376715 100644
+--- a/Documentation/devicetree/bindings/leds/backlight/led-backlight.yaml
++++ b/Documentation/devicetree/bindings/leds/backlight/led-backlight.yaml
+@@ -18,17 +18,12 @@ description:
+ 
+ allOf:
+   - $ref: common.yaml#
++  - $ref: /schemas/leds/leds-consumer.yaml#
+ 
+ properties:
+   compatible:
+     const: led-backlight
+ 
+-  leds:
+-    description: A list of LED nodes
+-    $ref: /schemas/types.yaml#/definitions/phandle-array
+-    items:
+-      maxItems: 1
+-
+ required:
+   - compatible
+   - leds
+diff --git a/Documentation/devicetree/bindings/leds/leds-group-multicolor.yaml b/Documentation/devicetree/bindings/leds/leds-group-multicolor.yaml
+index 8ed059a5a724..b4f326e8822a 100644
+--- a/Documentation/devicetree/bindings/leds/leds-group-multicolor.yaml
++++ b/Documentation/devicetree/bindings/leds/leds-group-multicolor.yaml
+@@ -17,16 +17,12 @@ properties:
+   compatible:
+     const: leds-group-multicolor
+ 
+-  leds:
+-    description:
+-      An aray of monochromatic leds
+-    $ref: /schemas/types.yaml#/definitions/phandle-array
+-
+ required:
+   - leds
+ 
+ allOf:
+   - $ref: leds-class-multicolor.yaml#
++  - $ref: /schemas/leds/leds-consumer.yaml#
+ 
+ unevaluatedProperties: false
+ 
+diff --git a/Documentation/devicetree/bindings/media/video-interface-devices.yaml b/Documentation/devicetree/bindings/media/video-interface-devices.yaml
+index cf7712ad297c..1e25cea0ff71 100644
+--- a/Documentation/devicetree/bindings/media/video-interface-devices.yaml
++++ b/Documentation/devicetree/bindings/media/video-interface-devices.yaml
+@@ -10,6 +10,9 @@ maintainers:
+   - Jacopo Mondi <jacopo@jmondi.org>
+   - Sakari Ailus <sakari.ailus@linux.intel.com>
+ 
++allOf:
++  - $ref: /schemas/leds/leds-consumer.yaml#
++
+ properties:
+   flash-leds:
+     $ref: /schemas/types.yaml#/definitions/phandle-array
+-- 
+2.48.1
+

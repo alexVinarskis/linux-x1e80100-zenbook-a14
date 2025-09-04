@@ -1,0 +1,50 @@
+From 0e288c4934a9ffab066dbeefa5f237700688d7bc Mon Sep 17 00:00:00 2001
+From: Aleksandrs Vinarskis <alex@vinarskis.com>
+Date: Fri, 5 Sep 2025 01:30:35 +0200
+Subject: [PATCH 4/4] arm64: dts: qcom: sc8280xp-x13s: enable camera privacy
+ indicator
+
+Leverage newly introduced 'privacy-led' led name to pass indicator's
+phandle to v4l2 subnode. The latter supports privacy led since couple
+of years ago. Unlike initially proposed trigger-source based approach,
+this solution cannot be easily bypassed from userspace.
+
+Signed-off-by: Aleksandrs Vinarskis <alex@vinarskis.com>
+---
+ .../boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dts      | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
+
+diff --git a/arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dts b/arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dts
+index 637430719e6d..03801b174713 100644
+--- a/arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dts
++++ b/arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dts
+@@ -83,15 +83,11 @@ leds {
+ 		pinctrl-names = "default";
+ 		pinctrl-0 = <&cam_indicator_en>;
+ 
+-		led-camera-indicator {
+-			label = "white:camera-indicator";
++		privacy_led: privacy-led {
+ 			function = LED_FUNCTION_INDICATOR;
+ 			color = <LED_COLOR_ID_WHITE>;
+ 			gpios = <&tlmm 28 GPIO_ACTIVE_HIGH>;
+-			linux,default-trigger = "none";
+ 			default-state = "off";
+-			/* Reuse as a panic indicator until we get a "camera on" trigger */
+-			panic-indicator;
+ 		};
+ 	};
+ 
+@@ -685,6 +681,9 @@ camera@10 {
+ 		pinctrl-names = "default";
+ 		pinctrl-0 = <&cam_rgb_default>;
+ 
++		led-names = "privacy-led";
++		leds = <&privacy_led>;
++
+ 		clocks = <&camcc CAMCC_MCLK3_CLK>;
+ 
+ 		orientation = <0>;	/* Front facing */
+-- 
+2.48.1
+
