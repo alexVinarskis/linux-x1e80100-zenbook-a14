@@ -1,7 +1,7 @@
-From 61c6d8b0539774c3c947a91265804fc3e48056c0 Mon Sep 17 00:00:00 2001
-From: Aleksandrs Vinarskis <alex.vinarskis@gmail.com>
+From cbebe418b0c8dd0b0b11caaad6d3321eb0565feb Mon Sep 17 00:00:00 2001
+From: Aleksandrs Vinarskis <alex@vinarskis.com>
 Date: Tue, 8 Jul 2025 23:22:09 +0200
-Subject: [PATCH 7/7] arm64: dts: qcom: Rework X1-based Asus Zenbook A14's
+Subject: [PATCH 2/3] arm64: dts: qcom: Rework X1-based Asus Zenbook A14's
  displays
 
 The laptop comes in two variants:
@@ -21,7 +21,7 @@ As dedicated device-tree is required, update compatibles of OLED
 variants to correct ones. Keep "edp-panel" as fallback, since it is
 enough to make the panels work.
 
-Signed-off-by: Aleksandrs Vinarskis <alex.vinarskis@gmail.com>
+Signed-off-by: Aleksandrs Vinarskis <alex@vinarskis.com>
 Co-developed-by: Jens Glathe <jens.glathe@oldschoolsolutions.biz>
 ---
  arch/arm64/boot/dts/qcom/Makefile             |   2 +
@@ -35,10 +35,10 @@ Co-developed-by: Jens Glathe <jens.glathe@oldschoolsolutions.biz>
  create mode 100644 arch/arm64/boot/dts/qcom/x1p42100-asus-zenbook-a14.dtsi
 
 diff --git a/arch/arm64/boot/dts/qcom/Makefile b/arch/arm64/boot/dts/qcom/Makefile
-index d2f932dfcc75..15c374ff80f3 100644
+index 0a7c308dec36..98ab8c1e9f5d 100644
 --- a/arch/arm64/boot/dts/qcom/Makefile
 +++ b/arch/arm64/boot/dts/qcom/Makefile
-@@ -335,5 +335,7 @@ x1e80100-qcp-el2-dtbs	:= x1e80100-qcp.dtb x1-el2.dtbo
+@@ -335,6 +335,8 @@ x1e80100-qcp-el2-dtbs	:= x1e80100-qcp.dtb x1-el2.dtbo
  dtb-$(CONFIG_ARCH_QCOM)	+= x1e80100-qcp.dtb x1e80100-qcp-el2.dtb
  x1p42100-asus-zenbook-a14-el2-dtbs	:= x1p42100-asus-zenbook-a14.dtb x1-el2.dtbo
  dtb-$(CONFIG_ARCH_QCOM)	+= x1p42100-asus-zenbook-a14.dtb x1p42100-asus-zenbook-a14-el2.dtb
@@ -46,11 +46,12 @@ index d2f932dfcc75..15c374ff80f3 100644
 +dtb-$(CONFIG_ARCH_QCOM)	+= x1p42100-asus-zenbook-a14-lcd.dtb x1p42100-asus-zenbook-a14-lcd-el2.dtb
  x1p42100-crd-el2-dtbs	:= x1p42100-crd.dtb x1-el2.dtbo
  dtb-$(CONFIG_ARCH_QCOM)	+= x1p42100-crd.dtb x1p42100-crd-el2.dtb
+ x1p42100-lenovo-thinkbook-16-el2-dtbs	:= x1p42100-lenovo-thinkbook-16.dtb x1-el2.dtbo
 diff --git a/arch/arm64/boot/dts/qcom/x1-asus-zenbook-a14.dtsi b/arch/arm64/boot/dts/qcom/x1-asus-zenbook-a14.dtsi
-index 76e91d3470fe..ae3bc8b33ce7 100644
+index ee3c8c5e2c50..f82e2593e144 100644
 --- a/arch/arm64/boot/dts/qcom/x1-asus-zenbook-a14.dtsi
 +++ b/arch/arm64/boot/dts/qcom/x1-asus-zenbook-a14.dtsi
-@@ -1004,14 +1004,10 @@ &mdss_dp3 {
+@@ -1005,14 +1005,10 @@ &mdss_dp3 {
  	status = "okay";
  
  	aux-bus {
@@ -67,7 +68,7 @@ index 76e91d3470fe..ae3bc8b33ce7 100644
  				edp_panel_in: endpoint {
  					remote-endpoint = <&mdss_dp3_out>;
 diff --git a/arch/arm64/boot/dts/qcom/x1e80100-asus-zenbook-a14.dts b/arch/arm64/boot/dts/qcom/x1e80100-asus-zenbook-a14.dts
-index 0d0bcc50207d..9e8912c9ab04 100644
+index 0d0bcc50207d..f8f541153165 100644
 --- a/arch/arm64/boot/dts/qcom/x1e80100-asus-zenbook-a14.dts
 +++ b/arch/arm64/boot/dts/qcom/x1e80100-asus-zenbook-a14.dts
 @@ -22,6 +22,14 @@ &gpu_zap_shader {
@@ -87,14 +88,14 @@ index 0d0bcc50207d..9e8912c9ab04 100644
  			"qcom/x1e80100/ASUSTeK/zenbook-a14/adsp_dtbs.elf";
 diff --git a/arch/arm64/boot/dts/qcom/x1p42100-asus-zenbook-a14-lcd.dts b/arch/arm64/boot/dts/qcom/x1p42100-asus-zenbook-a14-lcd.dts
 new file mode 100644
-index 000000000000..896b0d81f76b
+index 000000000000..be756069131d
 --- /dev/null
 +++ b/arch/arm64/boot/dts/qcom/x1p42100-asus-zenbook-a14-lcd.dts
 @@ -0,0 +1,62 @@
 +// SPDX-License-Identifier: BSD-3-Clause
 +/*
 + * Copyright (c) 2025 Qualcomm Innovation Center, Inc. All rights reserved.
-+ * Copyright (c) 2025 Aleksandrs Vinarskis <alex.vinarskis@gmail.com>
++ * Copyright (c) 2025 Aleksandrs Vinarskis <alex@vinarskis.com>
 + */
 +
 +/dts-v1/;
@@ -154,7 +155,7 @@ index 000000000000..896b0d81f76b
 +	status = "okay";
 +};
 diff --git a/arch/arm64/boot/dts/qcom/x1p42100-asus-zenbook-a14.dts b/arch/arm64/boot/dts/qcom/x1p42100-asus-zenbook-a14.dts
-index bd75ff898601..66206d92b3cb 100644
+index bd75ff898601..68cd318d6907 100644
 --- a/arch/arm64/boot/dts/qcom/x1p42100-asus-zenbook-a14.dts
 +++ b/arch/arm64/boot/dts/qcom/x1p42100-asus-zenbook-a14.dts
 @@ -6,136 +6,17 @@
@@ -303,14 +304,14 @@ index bd75ff898601..66206d92b3cb 100644
  };
 diff --git a/arch/arm64/boot/dts/qcom/x1p42100-asus-zenbook-a14.dtsi b/arch/arm64/boot/dts/qcom/x1p42100-asus-zenbook-a14.dtsi
 new file mode 100644
-index 000000000000..bd75ff898601
+index 000000000000..48b90020f420
 --- /dev/null
 +++ b/arch/arm64/boot/dts/qcom/x1p42100-asus-zenbook-a14.dtsi
 @@ -0,0 +1,141 @@
 +// SPDX-License-Identifier: BSD-3-Clause
 +/*
 + * Copyright (c) 2025 Qualcomm Innovation Center, Inc. All rights reserved.
-+ * Copyright (c) 2025 Aleksandrs Vinarskis <alex.vinarskis@gmail.com>
++ * Copyright (c) 2025 Aleksandrs Vinarskis <alex@vinarskis.com>
 + */
 +
 +/dts-v1/;
@@ -449,5 +450,5 @@ index 000000000000..bd75ff898601
 +	};
 +};
 -- 
-2.45.2
+2.48.1
 
