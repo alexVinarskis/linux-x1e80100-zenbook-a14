@@ -27,9 +27,9 @@ HW configurations tested
 | Battery Charging        |     ✅ |                                                                                                              |
 | Battery Info            |     ✅ |                                                                                                              |
 | Bluetooth               |     ✅ |                                                                                                              |
-| Camera                  |        | Works on top of Bryan/Linaro tree. Video is upside down. ov02c10 needs to gain vflip/hflip support           |
+| Camera                  |    WIP | Works on top of Bryan/Linaro tree. Video is upside down. ov02c10 needs to gain vflip/hflip support           |
 | Display                 |     ✅ | Tested low-res OLED panel                                                                                    |
-| GPU Acceleration        |        | UX3407RA / X1E-78-100 should work oob. UX3407QA / X1P-42-100, X1-26-100 waiting for GPU support.             |
+| GPU Acceleration        |     ✅ |                                                                                                              |
 | Keyboard                |     ✅ |                                                                                                              |
 | Microphone              |     ✅ |                                                                                                              |
 | NVMe                    |     ✅ |                                                                                                              |
@@ -45,7 +45,7 @@ HW configurations tested
 | USB-C DP over dock      |     ✅ | Series on the lists, not yet merged                                                                          |
 | HDMI                    |    WIP | Parade PS185PDF DP1.4a to HDMI IC                                                                            |
 | Wi-Fi                   |     ✅ | UX3407RA with FastConnect 7800 should work oob. UX3407QA requires firmware extraction and patching.          |
-| EC                      | WIP/❌ | Similar to out-of-tree EC driver for Lenovo Slim 7x.                                                         |
+| EC                      |     ❌ | Similar to out-of-tree EC driver for Lenovo Slim 7x.                                                         |
 
 ## WCN688x WiFi
 
