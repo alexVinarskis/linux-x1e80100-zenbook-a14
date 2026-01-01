@@ -1,19 +1,19 @@
-From fe793c09a7ed37a4275c778c6c76de93a1c6ae6b Mon Sep 17 00:00:00 2001
+From 2eb7105d803dfdcce0d0e1d99fc4c7cbd527175a Mon Sep 17 00:00:00 2001
 From: Aleksandrs Vinarskis <alex@vinarskis.com>
 Date: Thu, 31 Jul 2025 21:56:35 +0200
-Subject: [PATCH] arm64: dts: qcom: x1-asus-zenbook-a14: Add on OV02C10 RGB
+Subject: [PATCH 1/8] arm64: dts: qcom: x1-asus-zenbook-a14: Add on OV02C10 RGB
  sensor on CSIPHY4
 
-The device uses Omnivision ov02c10 RGB sensor. Reset GPIO, LDOs are
-extracted from decompiled AeoB files.
+The device uses Omnivision ov02c10 RGB sensor. Reset GPIO, privacy LED
+GPIO, LDOs are extracted from decompiled AeoB files.
 
 Signed-off-by: Aleksandrs Vinarskis <alex@vinarskis.com>
 ---
- .../boot/dts/qcom/x1-asus-zenbook-a14.dtsi    | 110 +++++++++++++++++-
- 1 file changed, 106 insertions(+), 4 deletions(-)
+ .../boot/dts/qcom/x1-asus-zenbook-a14.dtsi    | 109 +++++++++++++++++-
+ 1 file changed, 105 insertions(+), 4 deletions(-)
 
 diff --git a/arch/arm64/boot/dts/qcom/x1-asus-zenbook-a14.dtsi b/arch/arm64/boot/dts/qcom/x1-asus-zenbook-a14.dtsi
-index 8e5c5575a5320..d704040b50e66 100644
+index 8e5c5575a5320..7003296dd4cb8 100644
 --- a/arch/arm64/boot/dts/qcom/x1-asus-zenbook-a14.dtsi
 +++ b/arch/arm64/boot/dts/qcom/x1-asus-zenbook-a14.dtsi
 @@ -8,6 +8,7 @@
@@ -54,7 +54,7 @@ index 8e5c5575a5320..d704040b50e66 100644
  		vreg_l8b_3p0: ldo8 {
  			regulator-name = "vreg_l8b_3p0";
  			regulator-min-microvolt = <3072000>;
-@@ -757,6 +762,87 @@ vreg_l3j_0p8: ldo3 {
+@@ -757,6 +762,86 @@ vreg_l3j_0p8: ldo3 {
  			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
  		};
  	};
@@ -106,8 +106,8 @@ index 8e5c5575a5320..d704040b50e66 100644
 +		reg = <0x36>;
 +
 +		reset-gpios = <&tlmm 237 GPIO_ACTIVE_LOW>;
-+		pinctrl-names = "default";
 +		pinctrl-0 = <&cam_rgb_default>;
++		pinctrl-names = "default";
 +
 +		leds = <&privacy_led>;
 +		led-names = "privacy";
@@ -117,7 +117,6 @@ index 8e5c5575a5320..d704040b50e66 100644
 +		assigned-clock-rates = <19200000>;
 +
 +		orientation = <0>;
-+		rotation = <180>;
 +
 +		avdd-supply = <&vreg_l7b_2p8>;
 +		dvdd-supply = <&vreg_l7b_2p8>;
@@ -142,7 +141,7 @@ index 8e5c5575a5320..d704040b50e66 100644
  };
  
  &i2c0 {
-@@ -1232,6 +1318,22 @@ cam_indicator_en: cam-indicator-en-state {
+@@ -1232,6 +1317,22 @@ cam_indicator_en: cam-indicator-en-state {
  		bias-disable;
  	};
  
@@ -166,5 +165,5 @@ index 8e5c5575a5320..d704040b50e66 100644
  		pins = "gpio70";
  		function = "gpio";
 -- 
-2.51.0
+2.52.0
 
