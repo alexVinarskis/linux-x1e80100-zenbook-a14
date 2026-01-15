@@ -25,25 +25,26 @@ HW configurations tested
 | Feature                 | Status | Notes                                                                                                        |
 | ----------------------- | -----: | ------------------------------------------------------------------------------------------------------------ |
 | Battery Charging        |     ✅ |                                                                                                              |
-| Battery Info            |     ✅ |                                                                                                              |
+| Battery Info            |     ✅ | Requires firmware extract                                                                                    |
 | Bluetooth               |     ✅ |                                                                                                              |
-| Camera                  |    WIP | Works on top of Bryan/Linaro tree. Video is upside down. ov02c10 needs to gain vflip/hflip support           |
-| Display                 |     ✅ | Tested low-res OLED panel                                                                                    |
-| GPU Acceleration        |     ✅ |                                                                                                              |
+| Iris/HW decoder         |    WIP | Works on Hamoa (X1E variant), not starting on Purwa (X1P variant)                                            |
+| Camera                  |    WIP | Works on top of Bryan/Linaro tree. Stable on Hamoa (X1E variant), not fully working on Purwa (X1P variant)   |
+| Display                 |     ✅ | FHD OLED and LCD on UX3407QA, 3K OLED on UX3407RA                                                            |
+| GPU Acceleration        |     ✅ | Requires firmware extract                                                                                    |
 | Keyboard                |     ✅ |                                                                                                              |
 | Microphone              |     ✅ |                                                                                                              |
 | NVMe                    |     ✅ |                                                                                                              |
-| Speakers                |     ✅ | Require userland configuration, see below.                                                                   |
+| Speakers                |     ✅ | ~Requires userland configuration, see below.~ Works with latest upstream alsa-ucm-config, linux-firmware     |
 | Audio Jack              |     ✅ |                                                                                                              |
 | Suspend                 |     ✅ | Suspends well, lid switch working. Power drop in sleep isn't best, depends on X1E generic support.           |
 | Touchpad                |     ✅ |                                                                                                              |
 | TPM                     |     ❌ | Firmware TPM                                                                                                 |
-| USB-A 3.0               |     ✅ |                                                                                                              |
+| USB-A 3.0               |     ✅ | Requires firmware extract                                                                                    |
 | USB-C 3.0               |     ✅ |                                                                                                              |
 | USB-C Booting           |     ✅ |                                                                                                              |
-| USB-C DP Alt Mode       |     ✅ |                                                                                                              |
-| USB-C DP over dock      |     ✅ | Series on the lists, not yet merged                                                                          |
-| HDMI                    |    WIP | Parade PS185PDF DP1.4a to HDMI IC                                                                            |
+| USB-C DP Alt Mode       |     ✅ | Requires firmware extract                                                                                    |
+| USB-C DP over dock      |     ✅ |                                                                                                              |
+| HDMI                    |     ✅ |                                                                                                              |
 | Wi-Fi                   |     ✅ | UX3407RA with FastConnect 7800 should work oob. UX3407QA requires firmware extraction and patching.          |
 | EC                      |     ❌ | Similar to out-of-tree EC driver for Lenovo Slim 7x.                                                         |
 
@@ -167,6 +168,8 @@ $ dmesg -w
 Besides device tree changes in kernel, two things are required to get audio working: alsa configuration and toplogy firmware.
 
 ### Audioreach-topology
+_Latest `linux-next` contains required binaries. Alternatively, compile from source as follows_
+
 * Download latest sources with Asus Zenbook A14 support from https://github.com/linux-msm/audioreach-topology/
 * Build via
 ```bash
@@ -179,15 +182,16 @@ sudo cp qcom/x1e80100/ASUSTeK/zenbook-a14/X1E80100-ASUS-Zenbook-A14-tplg.bin /li
 ```
 
 ### Alsa configuration
+_Latest `alsa-ucm-conf` contains required configuration. Alternatively, retreive from source as follows_
+
 * Download lastet configuration with Asus Zenbook A14 support from https://github.com/alsa-project/alsa-ucm-conf
 * Follow instructions in `README.md` to unpack
 
 Reboot to apply changes. You should now have:
 * Working x2 speakers
 * Working x2 microphones
-* Working audio jack with microphone
-
-Audio over HDMI and USB Type-C DP alt mode is not yet supported.
+* Working audio jack with microphone (* it appears microphone in headset is not working anymore, being looked into)
+* Working audio over HDMI, Type-C DisplayPort monitor
 
 ## Camera configuration
 

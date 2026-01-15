@@ -1,0 +1,50 @@
+From effe15d422117e177e4a7c666048394d4bcbbf01 Mon Sep 17 00:00:00 2001
+From: Aleksandrs Vinarskis <alex@vinarskis.com>
+Date: Thu, 15 Jan 2026 22:39:09 +0100
+Subject: [PATCH 3/3] WIP: arm64: dts: qcom: x1-asus-zenbook-a14: enable Iris
+
+Enable Iris encoder/decoder, and specify firmware paths.
+
+WIP: Does not start on Purwa/x1-26-100 variant
+
+Not-signed-off-by: Aleksandrs Vinarskis <alex@vinarskis.com>
+---
+ arch/arm64/boot/dts/qcom/x1e80100-asus-zenbook-a14.dts  | 5 +++++
+ arch/arm64/boot/dts/qcom/x1p42100-asus-zenbook-a14.dtsi | 5 +++++
+ 2 files changed, 10 insertions(+)
+
+diff --git a/arch/arm64/boot/dts/qcom/x1e80100-asus-zenbook-a14.dts b/arch/arm64/boot/dts/qcom/x1e80100-asus-zenbook-a14.dts
+index 0408ade7150f..8feb21e0f101 100644
+--- a/arch/arm64/boot/dts/qcom/x1e80100-asus-zenbook-a14.dts
++++ b/arch/arm64/boot/dts/qcom/x1e80100-asus-zenbook-a14.dts
+@@ -81,6 +81,11 @@ &gpu_zap_shader {
+ 	firmware-name = "qcom/x1e80100/ASUSTeK/zenbook-a14/qcdxkmsuc8380.mbn";
+ };
+ 
++&iris {
++	firmware-name = "qcom/x1e80100/ASUSTeK/zenbook-a14/qcvss8380.mbn";
++	status = "okay";
++};
++
+ &pcie4_port0 {
+ 	wifi@0 {
+ 		compatible = "pci17cb,1107";
+diff --git a/arch/arm64/boot/dts/qcom/x1p42100-asus-zenbook-a14.dtsi b/arch/arm64/boot/dts/qcom/x1p42100-asus-zenbook-a14.dtsi
+index 22470a97e1e3..94c2e2bf6463 100644
+--- a/arch/arm64/boot/dts/qcom/x1p42100-asus-zenbook-a14.dtsi
++++ b/arch/arm64/boot/dts/qcom/x1p42100-asus-zenbook-a14.dtsi
+@@ -85,6 +85,11 @@ &gpu_zap_shader {
+ 	firmware-name = "qcom/x1p42100/ASUSTeK/zenbook-a14/qcdxkmsucpurwa.mbn";
+ };
+ 
++&iris {
++	firmware-name = "qcom/x1p42100/ASUSTeK/zenbook-a14/qcvss8380_pa.mbn";
++	status = "okay";
++};
++
+ &pcie4_port0 {
+ 	wifi@0 {
+ 		compatible = "pci17cb,1103";
+-- 
+2.51.0
+

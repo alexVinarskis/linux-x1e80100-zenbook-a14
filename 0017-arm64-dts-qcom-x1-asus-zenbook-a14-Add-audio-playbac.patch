@@ -1,0 +1,107 @@
+From a334ab4f020bccc76ee10a20b07563f90cd30844 Mon Sep 17 00:00:00 2001
+From: Aleksandrs Vinarskis <alex@vinarskis.com>
+Date: Thu, 15 Jan 2026 22:37:32 +0100
+Subject: [PATCH 2/3] arm64: dts: qcom: x1-asus-zenbook-a14: Add audio playback
+ over DisplayPort, HDMI
+
+Add necessary DAI links and DAI name prefixes to enable audio playback
+over USB/DisplayPort. The device features x2 USB Type-C ports and x1
+HDMI connected over DP-HDMI bridge.
+
+Based on the commit c08c3fe117bb ("arm64: dts: qcom: x1e78100-t14s: Add
+audio playback over DisplayPort").
+
+Signed-off-by: Aleksandrs Vinarskis <alex@vinarskis.com>
+---
+ .../boot/dts/qcom/x1-asus-zenbook-a14.dtsi    | 54 +++++++++++++++++++
+ 1 file changed, 54 insertions(+)
+
+diff --git a/arch/arm64/boot/dts/qcom/x1-asus-zenbook-a14.dtsi b/arch/arm64/boot/dts/qcom/x1-asus-zenbook-a14.dtsi
+index 95adef6e73ae..143aa75683c1 100644
+--- a/arch/arm64/boot/dts/qcom/x1-asus-zenbook-a14.dtsi
++++ b/arch/arm64/boot/dts/qcom/x1-asus-zenbook-a14.dtsi
+@@ -225,6 +225,54 @@ sound {
+ 				"VA DMIC1", "VA MIC BIAS1",
+ 				"TX SWR_INPUT1", "ADC2_OUTPUT";
+ 
++		displayport-0-dai-link {
++			link-name = "DisplayPort0 Playback";
++
++			cpu {
++				sound-dai = <&q6apmbedai DISPLAY_PORT_RX_0>;
++			};
++
++			codec {
++				sound-dai = <&mdss_dp0>;
++			};
++
++			platform {
++				sound-dai = <&q6apm>;
++			};
++		};
++
++		displayport-1-dai-link {
++			link-name = "DisplayPort1 Playback";
++
++			cpu {
++				sound-dai = <&q6apmbedai DISPLAY_PORT_RX_1>;
++			};
++
++			codec {
++				sound-dai = <&mdss_dp1>;
++			};
++
++			platform {
++				sound-dai = <&q6apm>;
++			};
++		};
++
++		displayport-2-dai-link {
++			link-name = "DisplayPort2 Playback";
++
++			cpu {
++				sound-dai = <&q6apmbedai DISPLAY_PORT_RX_2>;
++			};
++
++			codec {
++				sound-dai = <&mdss_dp2>;
++			};
++
++			platform {
++				sound-dai = <&q6apm>;
++			};
++		};
++
+ 		va-dai-link {
+ 			link-name = "VA Capture";
+ 
+@@ -1104,6 +1152,8 @@ &mdss {
+ };
+ 
+ &mdss_dp0 {
++	sound-name-prefix = "DisplayPort0";
++
+ 	status = "okay";
+ };
+ 
+@@ -1112,6 +1162,8 @@ &mdss_dp0_out {
+ };
+ 
+ &mdss_dp1 {
++	sound-name-prefix = "DisplayPort1";
++
+ 	status = "okay";
+ };
+ 
+@@ -1120,6 +1172,8 @@ &mdss_dp1_out {
+ };
+ 
+ &mdss_dp2 {
++	sound-name-prefix = "DisplayPort2";
++
+ 	status = "okay";
+ };
+ 
+-- 
+2.51.0
+
