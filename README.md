@@ -5,7 +5,7 @@ As changes will be merged upstream, redundant patches will be dropped from this 
 ## Test setup
 Kernel
 * `linux-next`
-* current patchset tested on `next-20250522`
+* current patchset tested on `next-20260109`
 
 Initramfs
 * Ubuntu's auto-built from kernel installation
@@ -110,7 +110,7 @@ $ dmesg | grep "failed to fetch board data for"
 # Extract 1st entry which is the most precise match:
 # "bus=pci,vendor=17cb,device=1103,subsystem-vendor=14cd,subsystem-device=950a,qmi-chip-id=2,qmi-board-id=255,variant=UX3407Q"
 
-# Add apropriate entry to `board-2.json`:
+# Add apropriate entry to `board-2.json`. On UX3407QA I have seen `qmi-chip-id` being both `2` and `18`, adjust accordingly:
              {
                  "names": [
                      "bus=pci,vendor=17cb,device=1103,subsystem-vendor=14cd,subsystem-device=9509,qmi-chip-id=2,qmi-board-id=255"
