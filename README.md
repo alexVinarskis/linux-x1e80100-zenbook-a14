@@ -48,10 +48,10 @@ HW configurations tested
 | Wi-Fi                   |     ✅ | UX3407RA with FastConnect 7800 should work oob. UX3407QA requires firmware extraction and patching.          |
 | EC                      |     ❌ | Similar to out-of-tree EC driver for Lenovo Slim 7x.                                                         |
 
-## WCN688x WiFi
+## WCN6855 WiFi
 
-Lower-end UX3407QA has WCN6885 WiFi 6E, as opposed to WiFi 7 on UX3407RA.
-At least the WCN6885 is known not to work as is, as it requires both newer firmware, and patched `boards-2.bin`. Without these changes, driver would fail to load:
+Lower-end UX3407QA has WCN6855 WiFi 6E, as opposed to WiFi 7 on UX3407RA.
+At least the WCN6855 is known not to work as is, as it requires both newer firmware, and patched `boards-2.bin`. Without these changes, driver would fail to load:
 ```bash
 $ dmesg -w
 ...
