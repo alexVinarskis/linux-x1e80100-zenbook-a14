@@ -50,8 +50,8 @@ HW configurations tested
 
 ## WCN688x WiFi
 
-Lower-end UX3407QA has WCN6885 WiFi 6E, as opposed to WiFi 7 on UX3407RA.
-At least the WCN6885 is known not to work as is, as it requires both newer firmware, and patched `boards-2.bin`. Without these changes, driver would fail to load:
+Lower-end UX3407QA has WCN6855 WiFi 6E, as opposed to WiFi 7 on UX3407RA.
+At least the WCN6855 is known not to work as is, as it requires both newer firmware, and patched `boards-2.bin`. Without these changes, driver would fail to load:
 ```bash
 $ dmesg -w
 ...
